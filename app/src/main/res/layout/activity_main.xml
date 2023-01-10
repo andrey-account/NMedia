@@ -5,15 +5,158 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <!-- nmedia_launcher_foreground -->
+
+    <ImageView
+        android:id="@+id/netologyImageView"
+        android:layout_width="71dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/logotype"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@id/statusBarTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_netology" />
 
     <TextView
+        android:id="@+id/statusBarTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/statusBar"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/menuDotsImageView"
+        app:layout_constraintStart_toEndOf="@+id/netologyImageView" />
+
+    <TextView
+        android:id="@+id/timeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nmedia"
-        android:textSize="40sp"
+        android:text="@string/time"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/netologyImageView"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/menuDotsImageView"
+        android:layout_width="42dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dots_menu" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="netologyImageView, timeTextView, menuDotsImageView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/messageWithLink"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/shareImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:contentDescription="@android:string/yes"
+        app:layout_constraintBottom_toBottomOf="@id/buttonsBarrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintStart_toEndOf="@+id/heartTextView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_menu_share"
+        tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/lookImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:contentDescription="@android:string/yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_view"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/heartImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:contentDescription="@android:string/yes"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/buttonsBarrier"
+        app:layout_constraintHorizontal_bias="0.209"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.005"
+        app:srcCompat="@drawable/vector_heart"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/heartTextView"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonsBarrier"
+        app:layout_constraintStart_toEndOf="@+id/heartImageButton" />
+
+    <TextView
+        android:id="@+id/shareTextView"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonsBarrier"
+        app:layout_constraintStart_toEndOf="@+id/shareImageButton" />
+
+    <TextView
+        android:id="@+id/lookTextView"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonsBarrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/lookImageButton" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/buttonsBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="shareImageButton, shareTextView, lookImageButton,
+        lookTextView, heartImageButton, heartTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

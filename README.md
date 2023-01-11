@@ -1,3 +1,3 @@
-#Home works
-##For block kotlin developing for android.
-[Lessons: ](https://github.com/netology-code/and2-homeworks)
+<h1>Home works</h1>
+<h2>For block kotlin developing for android</h2>
+<a href="https://github.com/netology-code/and2-homeworks">About<a>

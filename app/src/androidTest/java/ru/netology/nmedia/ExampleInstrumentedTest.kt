@@ -22,121 +22,76 @@ class ExampleInstrumentedTest {
         assertEquals("ru.netology.nmedia", appContext.packageName)
     }
 
-    @Test
-    fun heartTen() {
-        heartClickCount = 10 //Значение счётчика, с которым тестируется функция
-        val expected = "11" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
+//Tests for fun likeText(likeClickCount)  for like button
+@Test
+fun tenLikes() {
+    likeClickCount = 10 //The value of the counter that the function is being tested with
+    val expected = "10"
+    val actual = likeText(likeClickCount)
+    assertEquals(expected, actual)
+}
 
     @Test
-    fun heartThousand() {
-        heartClickCount = 1000 //Значение счётчика, с которым тестируется функция
-        val expected = "1K" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun heartThousandAndHundred() {
-        heartClickCount = 1100 //Значение счётчика, с которым тестируется функция
-        val expected = "1.1K" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun heartTenThousand() {
-        heartClickCount = 10_000 //Значение счётчика, с которым тестируется функция
-        val expected = "10K" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun heartMillion() {
-        heartClickCount = 1_000_000 //Значение счётчика, с которым тестируется функция
-        val expected = "1M" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
-    @Test
-    fun heartMillionAndThousand() {
-        heartClickCount = 1_100_000 //Значение счётчика, с которым тестируется функция
-        val expected = "1.1M" //Функция heartIncrement() увеличит счётчик на 1 и преобразует число в строку
-        val actual = heartIncrement()
-        assertEquals(expected, actual)
-    }
-
-
-//---------------------------------------------------------------------------------------------
-
-//Tests for fun shareIncrement
-    @Test
-    fun shareTen() {
-        shareClickCount = 10
-        val expected = "11"
-        val actual = shareIncrement()
-        assertEquals(expected, actual)
-    }
-    @Test
-    fun shareThousand() {
-        shareClickCount = 1000
+    fun thousandLikes() {
+        likeClickCount = 1000
         val expected = "1K"
-        val actual = shareIncrement()
+        val actual = likeText(likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun shareThousandAndHundred() {
-        shareClickCount = 1100
+    fun thousandAndHundredLikes() {
+        likeClickCount = 1100
         val expected = "1.1K"
-        val actual = shareIncrement()
+        val actual = likeText(likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun shareTenThousand() {
-        shareClickCount = 10_000
+    fun tenThousandLikes() {
+        likeClickCount = 10_000
         val expected = "10K"
-        val actual = shareIncrement()
+        val actual = likeText(likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun shareMillion() {
-        shareClickCount = 1_000_000
+    fun millionLikes() {
+        likeClickCount = 1_000_000
         val expected = "1M"
-        val actual = shareIncrement()
+        val actual = likeText(likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun shareMillionAndThousand() {
-        shareClickCount = 1_100_000
+    fun millionAndThousandLikes() {
+        likeClickCount = 1_100_000
         val expected = "1.1M"
-        val actual = shareIncrement()
+        val actual = likeText(likeClickCount)
         assertEquals(expected, actual)
     }
+
+
+//---------------------------------------------------------------------------------------------
+
 
 
 
 //---------------------------------------------------------------------------------------------
 
-// Tests for fun lookIncrement
+// Tests for fun likeText(lookClickCount)  for look button
     @Test
     fun lookTen() {
         lookClickCount = 10
-        val expected = "11"
-        val actual = lookIncrement()
+        val expected = "10"
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
     @Test
     fun lookThousand() {
         lookClickCount = 1000
         val expected = "1K"
-        val actual = lookIncrement()
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
 
@@ -144,7 +99,7 @@ class ExampleInstrumentedTest {
     fun lookThousandAndHundred() {
         lookClickCount = 1100
         val expected = "1.1K"
-        val actual = lookIncrement()
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
 
@@ -152,7 +107,7 @@ class ExampleInstrumentedTest {
     fun lookTenThousand() {
         lookClickCount = 10_000
         val expected = "10K"
-        val actual = lookIncrement()
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
 
@@ -160,7 +115,7 @@ class ExampleInstrumentedTest {
     fun lookMillion() {
         lookClickCount = 1_000_000
         val expected = "1M"
-        val actual = lookIncrement()
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
 
@@ -168,7 +123,7 @@ class ExampleInstrumentedTest {
     fun lookMillionAndThousand() {
         lookClickCount = 1_100_000
         val expected = "1.1M"
-        val actual = lookIncrement()
+        val actual = likeText(lookClickCount)
         assertEquals(expected, actual)
     }
 }

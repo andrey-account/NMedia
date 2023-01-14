@@ -1,138 +1,97 @@
 package ru.netology.nmedia
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.util.Log
+import ru.netology.nmedia.databinding.ActivityMainBinding //Сгенерированный автоматически java класс
 import android.widget.ImageButton
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 
-import kotlin.math.roundToInt
-
-var heartClickCount = 1_099_998 //Счётчик лайков
-var shareClickCount = 1_099_998 //Счётчик репостов
-var lookClickCount = 1_099_998 //Счётчик просмотров
-const val POSITIVE_INFINITY = 1.0/0.0 //Верхний предел счётчиков
+var likeClickCount = 999 //Счётчик лайков
+var shareClickCount = 1 //Счётчик репостов
+var lookClickCount = 1 //Счётчик просмотров
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val post = Post(
+            id = 1,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это новая Нетология! Когда-то Нетология\n" +
+                    "        начиналась с интенсивов по онлайн-маркетингу. Затем\n" +
+                    "        появились курсы по дизайну, разработке, аналитике\n" +
+                    "        и управлению. Мы растём сами и помогаем расти\n" +
+                    "        студентам: от новичков до уверенных профессионалов.\n" +
+                    "        Но самое важное остаётся с нами: мы верим, что в\n" +
+                    "        каждом уже есть сила, которая заставляет хотеть\n" +
+                    "        больше, целиться выше, бежать быстрее. Наша миссия\n" +
+                    "        - помочь встать на путь роста и начать цепочку\n" +
+                    "        перемен -> http://netolo.gy/fyb",
+            published = "21 мая в 18:36",
+            likedByMe = false
+        )
+
         setContentView(R.layout.activity_main)
-        val textView: TextView = findViewById(R.id.textView)
+        val textView: TextView = findViewById(R.id.messageTextView)
         textView.movementMethod = LinkMovementMethod.getInstance()
 
-        val heartButton =
-            findViewById<ImageButton>(R.id.heartImageButton) //Тип параметра=кнопка с картинкой, id = heartImageButton
         val printLikes: TextView = findViewById(R.id.heartTextView) //Вывод результата в TextView
-        heartButton.setOnClickListener {
-            printLikes.text = heartIncrement()
-        } //После нажатия вызывает функцию heartIncrement()
+        with(binding) {
+            author.text = post.author
+            published.text = post.published
+            content.text = post.content
+            if (post.likedByMe) {
+                like.setImageResource(R.drawable.red_heart)
+                printLikes.text = likeText(likeClickCount) //Выводит текст из фукции likeText(likeClickCount)
+            }
+        }
 
-        val shareButton =
-            findViewById<ImageButton>(R.id.shareImageButton) //Тип параметра=кнопка с картинкой, id = shareImageButton
-        val printShares: TextView = findViewById(R.id.shareTextView) //Вывод результата в TextView
-        shareButton.setOnClickListener {
-            printShares.text = shareIncrement()
-        } //После нажатия вызывает функцию shareIncrement()
+        like.setOnClickListener {
+            if (it !is ImageButton) {
+                return@setOnClickListener
+            }
+            if (!post.likedByMe) {
+                likeClickCount++ //Увеличивает количество лайков +1
+                like?.setImageResource(R.drawable.red_heart) //Меняет сердце на красное
+                post.likedByMe = !post.likedByMe //Изменение состояние лайка (ВКЛ - ВЫКЛ)
+                printLikes.text = likeText(likeClickCount) //Выводит текст из фукции likeText()
+            } else {
+                likeClickCount--
+                like?.setImageResource(R.drawable.white_heart) //Меняет сердце на белое
+                post.likedByMe = !post.likedByMe
+                printLikes.text = likeText(likeClickCount)
+            }
+        }
 
-        val lookButton =
-            findViewById<ImageButton>(R.id.lookImageButton) //Тип параметра=кнопка с картинкой, id = shareImageButton
-        val printLooks: TextView = findViewById(R.id.lookTextView) //Вывод результата в TextView
-        lookButton.setOnClickListener {
-            printLooks.text = lookIncrement()
-        } //После нажатия вызывает функцию shareIncrement()
-    }
-}
+        share.setOnClickListener {
+            if (it !is ImageButton) {
+                return@setOnClickListener
+            }
+            shareClickCount++
+            val printShares: TextView = findViewById(R.id.shareTextView)
+            printShares.text = likeText(shareClickCount)
+        }
 
-
-fun heartIncrement(): String {
-    heartClickCount++
-    when (heartClickCount) {
-        in 1000..1_099 -> {
-            val text = (heartClickCount / 1000) //Выводит 1K лайков
-            return text.toString() + "K"
+        look.setOnClickListener {
+            if (it !is ImageButton) {
+                return@setOnClickListener
+            }
+            lookClickCount++
+            val printLooks: TextView = findViewById(R.id.lookTextView)
+            printLooks.text = likeText(lookClickCount)
         }
-        in 1100..9_999 -> {
-            var text = (heartClickCount.toDouble() / 1000) //Выводит 1.1K лайков
-            text = (text * 10).roundToInt() / 10.0 // делить надо обязательно на тип Double
-            return text.toString() + "K"
-        }
-        in 10_000..999_999 -> {
-            val text = (heartClickCount / 1000) //Выводит 10K лайков
-            return text.toString() + "K"
-        }
-        in 1_000_000..1_099_999 -> {
-            val text = (heartClickCount / 1_000_000) //Выводит 1M лайков
-            return text.toString() + "M"
-        }
-        in 1_100_000..POSITIVE_INFINITY.toInt() -> {
-            var text =
-                (heartClickCount.toDouble() / 1_000_000) //Выводит 1.1 лайков
-            text = (text * 10).roundToInt() / 10.0 // делить надо обязательно на тип Double
-            return text.toString() + "M"
-        }
-        else -> return heartClickCount.toString() //Преобразование Int в строку
-    }
-}
 
 
-fun shareIncrement(): String {
-    shareClickCount++
-    when (shareClickCount) {
-        in 1000..1_099 -> {
-            val text = (heartClickCount / 1000)
-            return text.toString() + "K"
+        binding.root.setOnClickListener { //На root не получается поставить обработчик!
+            Log.d("root", "root is clicked")
         }
-        in 1100..9_999 -> {
-            var text = (heartClickCount.toDouble() / 1000)
-            text = (text * 10).roundToInt() / 10.0
-            return text.toString() + "K"
+        messageTextView.setOnClickListener{
+            Log.d("text", "text is clicked")
         }
-        in 10_000..999_999 -> {
-            val text = (heartClickCount / 1000)
-            return text.toString() + "K"
-        }
-        in 1_000_000..1_099_999 -> {
-            val text = (shareClickCount / 1_000_000) //Выводит количество миллионов репостов
-            return text.toString() + "M"
-        }
-        in 1_100_000..POSITIVE_INFINITY.toInt() -> {
-            var text =
-                (heartClickCount.toDouble() / 1_000_000) //Выводит 1.1 репостов
-            text = (text * 10).roundToInt() / 10.0 // делить надо обязательно на тип Double
-            return text.toString() + "M"
-        }
-        else -> return shareClickCount.toString() //Преобразование Int в строку
-    }
-}
-
-
-fun lookIncrement(): String { //Просмотры
-    lookClickCount++
-    when (lookClickCount) {
-        in 1000..1_099 -> {
-            val text = (heartClickCount / 1000)
-            return text.toString() + "K"
-        }
-        in 1100..9_999 -> {
-            var text = (heartClickCount.toDouble() / 1000)
-            text = (text * 10).roundToInt() / 10.0
-            return text.toString() + "K"
-        }
-        in 10_000..999_999 -> {
-            val text = (heartClickCount / 1000)
-            return text.toString() + "K"
-        }
-        in 1_000_000..1_099_999 -> {
-            val text = (lookClickCount / 1_000_000)
-            return text.toString() + "M"
-        }
-        in 1_100_000..POSITIVE_INFINITY.toInt() -> {
-            var text = (lookClickCount.toDouble() / 1_000_000)
-            text = (text * 10).roundToInt() / 10.0
-            return text.toString() + "M"
-        }
-        else -> return lookClickCount.toString()
     }
 }

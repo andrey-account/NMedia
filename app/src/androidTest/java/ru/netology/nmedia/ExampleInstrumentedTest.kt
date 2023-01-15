@@ -73,13 +73,60 @@ fun tenLikes() {
 
 
 //---------------------------------------------------------------------------------------------
+// Tests for fun likeText(shareClickCount)  for share button
 
+    @Test
+    fun tenShares() {
+        shareClickCount = 10
+        val expected = "10"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
+    @Test
+    fun thousandShares() {
+        shareClickCount = 1000
+        val expected = "1K"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
 
+    @Test
+    fun thousandAndHundredShares() {
+        shareClickCount = 1100
+        val expected = "1.1K"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun tenThousandShares() {
+        shareClickCount = 10_000
+        val expected = "10K"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun millionShares() {
+        shareClickCount = 1_000_000
+        val expected = "1M"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun millionAndThousandShares() {
+        shareClickCount = 1_100_000
+        val expected = "1.1M"
+        val actual = likeText(shareClickCount)
+        assertEquals(expected, actual)
+    }
 
 
 //---------------------------------------------------------------------------------------------
-
 // Tests for fun likeText(lookClickCount)  for look button
+
+
     @Test
     fun lookTen() {
         lookClickCount = 10

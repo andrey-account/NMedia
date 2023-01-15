@@ -7,3 +7,7 @@ data class Post(
     val published: String,
     var likedByMe: Boolean = false  //Лайк включен или отключен
 )
+//compileSdk 32
+//dependencies {
+//
+//    implementation 'androidx.core:core-ktx:1.9.0'

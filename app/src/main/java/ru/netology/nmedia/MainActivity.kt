@@ -3,15 +3,14 @@ package ru.netology.nmedia
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import ru.netology.nmedia.databinding.ActivityMainBinding //Сгенерированный автоматически java класс
 import android.widget.ImageButton
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
 var likeClickCount = 999 //Счётчик лайков
-var shareClickCount = 1 //Счётчик репостов
-var lookClickCount = 1 //Счётчик просмотров
+var shareClickCount = 0 //Счётчик репостов
+var lookClickCount = 0 //Счётчик просмотров
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContentView(R.layout.activity_main)
-        val textView: TextView = findViewById(R.id.messageTextView)
+        val textView: TextView = findViewById(R.id.content)
         textView.movementMethod = LinkMovementMethod.getInstance()
 
         val printLikes: TextView = findViewById(R.id.heartTextView) //Вывод результата в TextView
@@ -84,14 +83,6 @@ class MainActivity : AppCompatActivity() {
             lookClickCount++
             val printLooks: TextView = findViewById(R.id.lookTextView)
             printLooks.text = likeText(lookClickCount)
-        }
-
-
-        binding.root.setOnClickListener { //На root не получается поставить обработчик!
-            Log.d("root", "root is clicked")
-        }
-        messageTextView.setOnClickListener{
-            Log.d("text", "text is clicked")
         }
     }
 }

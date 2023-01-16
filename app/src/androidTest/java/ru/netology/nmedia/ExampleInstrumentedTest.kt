@@ -22,155 +22,155 @@ class ExampleInstrumentedTest {
         assertEquals("ru.netology.nmedia", appContext.packageName)
     }
 
-//Tests for fun likeText(likeClickCount)  for like button
+//Tests for fun likeText(likeClickCount)  for like imageButton
 @Test
 fun tenLikes() {
-    likeClickCount = 10 //The value of the counter that the function is being tested with
+    val post = Post(likeClickCount = 10) //The value of the counter that the function is being tested with
     val expected = "10"
-    val actual = likeText(likeClickCount)
+    val actual = likeText(post.likeClickCount)
     assertEquals(expected, actual)
 }
 
     @Test
     fun thousandLikes() {
-        likeClickCount = 1000
+        val post = Post(likeClickCount = 1000)
         val expected = "1K"
-        val actual = likeText(likeClickCount)
+        val actual = likeText(post.likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun thousandAndHundredLikes() {
-        likeClickCount = 1100
+        val post = Post(likeClickCount = 1_100)
         val expected = "1.1K"
-        val actual = likeText(likeClickCount)
+        val actual = likeText(post.likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun tenThousandLikes() {
-        likeClickCount = 10_000
+        val post = Post(likeClickCount = 10_000)
         val expected = "10K"
-        val actual = likeText(likeClickCount)
+        val actual = likeText(post.likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionLikes() {
-        likeClickCount = 1_000_000
+        val post = Post(likeClickCount = 1_000_000)
         val expected = "1M"
-        val actual = likeText(likeClickCount)
+        val actual = likeText(post.likeClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionAndThousandLikes() {
-        likeClickCount = 1_100_000
+        val post = Post(likeClickCount = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(likeClickCount)
+        val actual = likeText(post.likeClickCount)
         assertEquals(expected, actual)
     }
 
 
 //---------------------------------------------------------------------------------------------
-// Tests for fun likeText(shareClickCount)  for share button
+// Tests for fun likeText(shareClickCount)  for share imageButton
 
     @Test
     fun tenShares() {
-        shareClickCount = 10
+        val post = Post(shareClickCount = 10)
         val expected = "10"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
     @Test
     fun thousandShares() {
-        shareClickCount = 1000
+        val post = Post(shareClickCount = 1000)
         val expected = "1K"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun thousandAndHundredShares() {
-        shareClickCount = 1100
+        val post = Post(shareClickCount = 1100)
         val expected = "1.1K"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun tenThousandShares() {
-        shareClickCount = 10_000
+        val post = Post(shareClickCount = 10_000)
         val expected = "10K"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionShares() {
-        shareClickCount = 1_000_000
+        val post = Post(shareClickCount = 1_000_000)
         val expected = "1M"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionAndThousandShares() {
-        shareClickCount = 1_100_000
+        val post = Post(shareClickCount = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(shareClickCount)
+        val actual = likeText(post.shareClickCount)
         assertEquals(expected, actual)
     }
 
 
 //---------------------------------------------------------------------------------------------
-// Tests for fun likeText(lookClickCount)  for look button
+// Tests for fun likeText(lookClickCount)  for look imageButton
 
 
     @Test
     fun lookTen() {
-        lookClickCount = 10
+        val post = Post(lookClickCount = 10)
         val expected = "10"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
     @Test
     fun lookThousand() {
-        lookClickCount = 1000
+        val post = Post(lookClickCount = 1_000)
         val expected = "1K"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookThousandAndHundred() {
-        lookClickCount = 1100
+        val post = Post(lookClickCount = 1_100)
         val expected = "1.1K"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookTenThousand() {
-        lookClickCount = 10_000
+        val post = Post(lookClickCount = 10_000)
         val expected = "10K"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookMillion() {
-        lookClickCount = 1_000_000
+        val post = Post(lookClickCount = 1_000_000)
         val expected = "1M"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookMillionAndThousand() {
-        lookClickCount = 1_100_000
+        val post = Post(lookClickCount = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(lookClickCount)
+        val actual = likeText(post.lookClickCount)
         assertEquals(expected, actual)
     }
 }

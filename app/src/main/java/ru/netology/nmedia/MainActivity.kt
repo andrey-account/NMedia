@@ -8,10 +8,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
-var likeClickCount = 999 //Счётчик лайков
-var shareClickCount = 0 //Счётчик репостов
-var lookClickCount = 0 //Счётчик просмотров
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +28,10 @@ class MainActivity : AppCompatActivity() {
                     "        - помочь встать на путь роста и начать цепочку\n" +
                     "        перемен -> http://netolo.gy/fyb",
             published = "21 мая в 18:36",
-            likedByMe = false
+            likedByMe = false,
+            likeClickCount = 0,
+            shareClickCount = 0,
+            lookClickCount = 0
         )
 
         setContentView(R.layout.activity_main)
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             content.text = post.content
             if (post.likedByMe) {
                 like.setImageResource(R.drawable.red_heart)
-                printLikes.text = likeText(likeClickCount) //Выводит текст из фукции likeText(likeClickCount)
+                printLikes.text = likeText(post.likeClickCount) //Выводит текст из фукции likeText(likeClickCount)
             }
         }
 
@@ -55,15 +54,15 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             if (!post.likedByMe) {
-                likeClickCount++ //Увеличивает количество лайков +1
+                post.likeClickCount++ //Увеличивает количество лайков +1
                 like?.setImageResource(R.drawable.red_heart) //Меняет сердце на красное
                 post.likedByMe = !post.likedByMe //Изменение состояние лайка (ВКЛ - ВЫКЛ)
-                printLikes.text = likeText(likeClickCount) //Выводит текст из фукции likeText()
+                printLikes.text = likeText(post.likeClickCount) //Выводит текст из фукции likeText()
             } else {
-                likeClickCount--
+                post.likeClickCount--
                 like?.setImageResource(R.drawable.white_heart) //Меняет сердце на белое
                 post.likedByMe = !post.likedByMe
-                printLikes.text = likeText(likeClickCount)
+                printLikes.text = likeText(post.likeClickCount)
             }
         }
 
@@ -71,18 +70,18 @@ class MainActivity : AppCompatActivity() {
             if (it !is ImageButton) {
                 return@setOnClickListener
             }
-            shareClickCount++
+            post.shareClickCount++
             val printShares: TextView = findViewById(R.id.shareTextView)
-            printShares.text = likeText(shareClickCount)
+            printShares.text = likeText(post.shareClickCount)
         }
 
         look.setOnClickListener {
             if (it !is ImageButton) {
                 return@setOnClickListener
             }
-            lookClickCount++
+            post.lookClickCount++
             val printLooks: TextView = findViewById(R.id.lookTextView)
-            printLooks.text = likeText(lookClickCount)
+            printLooks.text = likeText(post.lookClickCount)
         }
     }
 }

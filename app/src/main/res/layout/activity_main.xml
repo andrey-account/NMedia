@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toBottomOf="@id/buttonsBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.039"
-        app:layout_constraintStart_toEndOf="@+id/heartTextView"
+        app:layout_constraintStart_toEndOf="@+id/likeTextView"
         app:layout_constraintTop_toBottomOf="@+id/content"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_menu_share"
@@ -121,7 +121,7 @@
         tools:ignore="ImageContrastCheck" />
 
     <TextView
-        android:id="@+id/heartTextView"
+        android:id="@+id/likeTextView"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:text=""
@@ -156,6 +156,6 @@
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="share, shareTextView, look,
-        lookTextView, like, heartTextView" />
+        lookTextView, like, likeTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

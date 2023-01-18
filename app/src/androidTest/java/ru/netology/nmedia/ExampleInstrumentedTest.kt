@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import ru.netology.nmedia.dto.Post
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,6 +16,8 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+
     @Test
     fun useAppContext() {
         // Context of the app under test.
@@ -22,14 +25,15 @@ class ExampleInstrumentedTest {
         assertEquals("ru.netology.nmedia", appContext.packageName)
     }
 
-//Tests for fun likeText(likeClickCount)  for like imageButton
-@Test
-fun tenLikes() {
-    val post = Post(likeClickCount = 10) //The value of the counter that the function is being tested with
-    val expected = "10"
-    val actual = likeText(post.likeClickCount)
-    assertEquals(expected, actual)
-}
+    //Tests for fun likeText(likeClickCount)  for like imageButton
+    @Test
+    fun tenLikes() {
+        val post =
+            Post(likeClickCount = 10) //The value of the counter that the function is being tested with
+        val expected = "10"
+        val actual = likeText(post.likeClickCount)
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun thousandLikes() {

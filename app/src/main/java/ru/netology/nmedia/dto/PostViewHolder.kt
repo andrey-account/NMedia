@@ -25,11 +25,10 @@ class PostViewHolder(
             like.setOnClickListener {
                 onLikeListener(post) //Вызов функции из класса PostViewModel
             }
-            likeTextView.text = likeText(post.likeClickCount)//post.likeClickCount.toString()
+            likeTextView.text = likeText(post.likeClickCount)
 
             share.setOnClickListener {
                 onShareListener(post)
-                //viewModel.share(post.id) //Старый рабочий код
             }
             shareTextView.text = likeText(post.shareClickCount)
 

@@ -2,7 +2,7 @@ package ru.netology.nmedia
 
 import kotlin.math.roundToInt
 
-fun likeText(elementCount: Int): String {
+fun likeText(elementCount: Long): String {
     return when (elementCount) {
         in 0..999 -> elementCount.toString()
         in 1000..1_099 -> {(elementCount / 1000).toString() + "K" //Outputs 1K likes

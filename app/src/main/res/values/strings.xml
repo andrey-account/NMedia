@@ -14,6 +14,12 @@ bigger, aim higher, run faster. Our mission
 changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
     <string name="statusBar">Netology. University of Internet Professions of the Future</string>
     <string name="time">21 may at 18:36</string>
-    <string name="menu">three dots menu</string>
-    <string name="logotype">logotype of Netology</string>
+    <string name="description_post_menu">three dots menu</string>
+    <string name="description_post_author_avatar">Avatar of the author of the post</string>
+    <string name="error_empty_content">The content cannot be empty!</string>
+    <string name="description_post_like">Like</string>
+    <string name="post_text">Input post text</string>
+    <string name="menu_edit">Change</string>
+    <string name="menu_remove">Delete</string>
+    <string name="notEdit">Editing canceled</string>
 </resources>

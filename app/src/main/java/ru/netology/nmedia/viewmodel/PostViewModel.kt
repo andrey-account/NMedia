@@ -16,8 +16,8 @@ private val empty = Post(
 
 class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
-    val data = repository.getAll()
-    val edited = MutableLiveData(empty)
+    val data = repository.getAll() //Хранит список постов
+    val edited = MutableLiveData(empty) //Хранит текущий редактируемый элемент
 
     fun save() {
         edited.value?.let {
@@ -27,7 +27,7 @@ class PostViewModel : ViewModel() {
     }
 
     fun edit(post: Post) {
-        edited.value = post
+        edited.value = post //Присваивается теущий отредактированный пост
     }
 
     fun changeContent(content: String) {

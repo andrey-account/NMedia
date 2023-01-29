@@ -3,6 +3,7 @@ package ru.netology.nmedia.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
+import java.util.*
 
 class PostRepositoryInMemoryImpl : PostRepository {
     private var nextId = 1L
@@ -91,14 +92,19 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun getAll(): LiveData<List<Post>> = data //returns data
 
+    private fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
+
+private val author = "Андрей"
     override fun save(post: Post) {
         if (post.id == 0L) {
             posts = listOf(
                 post.copy(
                     id = nextId++,
-                    author = post.author, //"Me",
+                    author = author, //"Me",
                     likedByMe = false,
-                    published = post.published, //"now"
+                    published = (getCurrentDateTime()).toString() //"now"
                 )
             ) + posts
             data.value = posts

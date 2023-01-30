@@ -17,8 +17,9 @@ interface OnInteractionListener {
     fun onLike(post: Post) {}
     fun onShare(post: Post) {} // Для обработки нажатия кнопки share
     fun onLook(post: Post) {} // Для обработки нажатия кнопки look
-    fun onEdit(post: Post) {}
-    fun onRemove(post: Post) {}
+    fun onEdit(post: Post) {} //Для редактирования поста
+    fun onCancelEdit(post: Post) {}  //Для отмены редактирования поста
+    fun onRemove(post: Post) {} //Для удаления поста
 }
 
 class PostsAdapter(

@@ -1,7 +1,12 @@
 package ru.netology.nmedia.repository
 
+
+
+
+import android.provider.Settings.Global.getString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.R
 import ru.netology.nmedia.dto.Post
 import java.util.*
 
@@ -85,6 +90,13 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likeClickCount = 999, //Счётчик лайков
             shareClickCount = 999, //Счётчик репостов
             lookClickCount = 999, //Счётчик просмотров
+        ),
+        Post(
+            id = nextId++, //Пустой пост для проверки редактирования
+            author = "", // notEdit должен выбросить сообщение "Контент не может быть пустым!"
+            content = "",
+            published = "",
+            likedByMe = false,
         ),
     ).reversed()
 

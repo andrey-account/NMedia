@@ -30,6 +30,12 @@ class PostViewModel : ViewModel() {
         edited.value = post //Присваивается теущий отредактированный пост
     }
 
+    fun notEdit(){
+        edited.value?.let{
+            edited.value = empty
+        }
+    }
+
     fun changeContent(content: String) {
         val text = content.trim()
         if (edited.value?.content == text) {

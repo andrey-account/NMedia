@@ -41,13 +41,17 @@ class MainActivity : AppCompatActivity() {
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
             }
+
+            override fun onCancelEdit(post: Post) { //Для отмены редактирования поста
+                viewModel.notEdit()
+            }
         })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
 
-        viewModel.edited.observe(this) { post ->
+        viewModel.edited.observe(this) { post -> //Редактирование поста
             if (post.id == 0L) {
                 return@observe
             }
@@ -56,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                 setText(post.content)
             }
         }
-        binding.notEdit.setOnClickListener {
+
+        binding.notEdit.setOnClickListener { //Отмена редактирования поста
             with(binding.content) {
                 if (text.isNotEmpty()) {
                     Toast.makeText(
@@ -64,9 +69,18 @@ class MainActivity : AppCompatActivity() {
                         context.getString(R.string.notEdit),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                viewModel.notEdit()
                     text.clear()
+                    clearFocus()
                     binding.editGroup.visibility = View.GONE //Перестаёт занимать место на экране
                     AndroidUtils.hideKeyboard(this)
+                } else {
+                    Toast.makeText( //Если текст поста пустой, всплывает сообщение:
+                        this@MainActivity,
+                        context.getString(R.string.error_empty_content),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

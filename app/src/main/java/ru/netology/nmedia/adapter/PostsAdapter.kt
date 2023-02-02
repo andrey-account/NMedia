@@ -48,9 +48,6 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            like.setImageResource(
-                if (post.likedByMe) R.drawable.red_heart else R.drawable.white_heart
-            )
 
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
@@ -71,15 +68,18 @@ class PostViewHolder(
                 }.show()
             }
 
+
+            like.isChecked = post.likedByMe
             like.setOnClickListener {
-                onInteractionListener.onLike(post) //Вызов функции из класса PostViewModel
+                onInteractionListener.onLike(post)
             }
-            likeTextView.text = likeText(post.likeClickCount)
+            like.text = likeText(post.likeClickCount)
+
 
             share.setOnClickListener {
                 onInteractionListener.onShare(post) //onShareListener(post)
             }
-            shareTextView.text = likeText(post.shareClickCount)
+            share.text = likeText(post.shareClickCount)
 
             look.setOnClickListener {
                 onInteractionListener.onLook(post) //onLookListener(post)

@@ -10,6 +10,6 @@ interface PostRepository {
     fun removeById(id: Long) //Для удаления постов
 
     fun likeById(id: Long)
-    fun share(id: Long)
+    fun shareById(id: Long)
     fun look(id: Long)
 }

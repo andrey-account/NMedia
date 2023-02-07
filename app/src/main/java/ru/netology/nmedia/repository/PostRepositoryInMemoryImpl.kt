@@ -1,12 +1,7 @@
 package ru.netology.nmedia.repository
 
-
-
-
-import android.provider.Settings.Global.getString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.R
 import ru.netology.nmedia.dto.Post
 import java.util.*
 
@@ -94,7 +89,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
         Post(
             id = nextId++, //Пустой пост для проверки редактирования
             author = "", // notEdit должен выбросить сообщение "Контент не может быть пустым!"
-            content = "",
+            content = "Ссылка на видео: " + "https://www.youtube.com/watch?v=co-xvffMcJ0",
+            video = "https://www.youtube.com/watch?v=co-xvffMcJ0", //Должна появиться фотография
             published = "",
             likedByMe = false,
         ),
@@ -137,7 +133,7 @@ private val author = "Андрей"
         data.value = posts //overwrites the updated object post
     }
 
-    override fun share(id: Long) {
+    override fun shareById(id: Long) {
         posts = posts.map{
             if (it.id != id) it else it.copy(shareClickCount = it.shareClickCount + 1)
         }

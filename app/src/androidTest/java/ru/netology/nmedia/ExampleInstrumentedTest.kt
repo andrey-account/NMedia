@@ -29,49 +29,49 @@ class ExampleInstrumentedTest {
     @Test
     fun tenLikes() {
         val post =
-            Post(likeClickCount = 10) //The value of the counter that the function is being tested with
+            Post(likes = 10) //The value of the counter that the function is being tested with
         val expected = "10"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 
     @Test
     fun thousandLikes() {
-        val post = Post(likeClickCount = 1000)
+        val post = Post(likes = 1000)
         val expected = "1K"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 
     @Test
     fun thousandAndHundredLikes() {
-        val post = Post(likeClickCount = 1_100)
+        val post = Post(likes = 1_100)
         val expected = "1.1K"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 
     @Test
     fun tenThousandLikes() {
-        val post = Post(likeClickCount = 10_000)
+        val post = Post(likes = 10_000)
         val expected = "10K"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionLikes() {
-        val post = Post(likeClickCount = 1_000_000)
+        val post = Post(likes = 1_000_000)
         val expected = "1M"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionAndThousandLikes() {
-        val post = Post(likeClickCount = 1_100_000)
+        val post = Post(likes = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(post.likeClickCount)
+        val actual = likeText(post.likes)
         assertEquals(expected, actual)
     }
 

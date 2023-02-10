@@ -3,11 +3,10 @@ package ru.netology.nmedia.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import ru.netology.nmedia.activity.NewPostResultContract
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
+import ru.netology.nmedia.repository.PostRepositoryFilesImpl
+import ru.netology.nmedia.repository.PostRepositorySharedPrefsImpl
 
 private val empty = Post(
     id = 0,
@@ -18,9 +17,13 @@ private val empty = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application){
-    private val edited = MutableLiveData(empty) //Хранит текущий редактируемый элемент
-    private val repository: PostRepository = PostRepositoryInMemoryImpl()
+
+    private val repository: PostRepository = PostRepositorySharedPrefsImpl(application)
+    //private val repository: PostRepository = PostRepositoryFilesImpl(application)
+
     val data = repository.getAll() //Хранит список постов
+    private val edited = MutableLiveData(empty) //Хранит текущий редактируемый элемент
+
 
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
@@ -38,11 +41,14 @@ class PostViewModel(application: Application) : AndroidViewModel(application){
         edited.value = post //Присваивается теущий отредактированный пост
     }
 
-    fun changeContent(content: String) {
+    fun changeContentAndSave(content: String) {
         val text = content.trim()
         if (edited.value?.content == text) {
             return
         }
-        edited.value = edited.value?.copy(content = text)
+        edited.value?.let {
+            repository.save(it.copy(content = text))
+        }
+        edited.value = empty
     }
 }

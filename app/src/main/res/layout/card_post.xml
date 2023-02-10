@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="1dp">
+        android:padding="1dp"/>
+    -->
 
         <ImageView
             android:id="@+id/avatar"
@@ -78,6 +80,32 @@
             app:layout_constraintVertical_bias="0.0"
             tools:text="@sample/posts.json/data/content" />
 
+
+    <FrameLayout
+        android:id="@+id/video_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:contentDescription="@string/description_video"
+            android:src="@drawable/video_preview" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.AppTheme.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            app:icon="@drawable/play_button" />
+
+    </FrameLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
             style="@style/Widget.AppTheme.LikeButton"
@@ -94,7 +122,8 @@
             app:layout_constraintVertical_bias="0.005"
             android:textSize="22sp"
             tools:checked="@sample/posts.json/data/likedByMe"
-            tools:text="@sample/posts.json/data/likes" />
+            tools:text="@sample/posts.json/data/likes"
+            tools:ignore="NotSibling" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -111,7 +140,8 @@
             app:layout_constraintTop_toBottomOf="@+id/content"
             app:layout_constraintVertical_bias="1.0"
             android:textSize="22sp"
-            tools:text="@sample/posts.json/data/share" />
+            tools:text="@sample/posts.json/data/share"
+            tools:ignore="NotSibling" />
 
         <ImageButton
             android:id="@+id/look"
@@ -125,7 +155,7 @@
             app:layout_constraintTop_toBottomOf="@+id/content"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@android:drawable/ic_menu_view"
-            tools:ignore="ImageContrastCheck" />
+            tools:ignore="ImageContrastCheck,NotSibling" />
 
         <TextView
             android:id="@+id/lookTextView"
@@ -147,5 +177,12 @@
             app:constraint_referenced_ids="share, look,
         lookTextView, like" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/countViews"
+        style="@style/Widget.AppTheme.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="video views" />
+</androidx.constraintlayout.widget.ConstraintLayout>

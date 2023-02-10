@@ -9,6 +9,7 @@ data class Post(
     val likeClickCount: Long = 0L, //Счётчик лайков
     val shareClickCount: Long = 0L, //Счётчик репостов
     val lookClickCount: Long = 0L, //Счётчик просмотров
+    val video: String = "" //Для ссылок на видео из YouTube
 )
 //Значения по умолчанию добавлены, чтобы было проще писать тесты
 // (не указывать в каждом тесте все значения класса)

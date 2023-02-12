@@ -19,9 +19,11 @@ changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
     <string name="error_empty_content">The content cannot be empty!</string>
     <string name="description_post_like">Like</string>
     <string name="description_video">Video preview</string>
+    <string name="add_post">Add post</string>
     <string name="post_text">Input post text</string>
     <string name="menu_edit">Change</string>
     <string name="menu_remove">Delete</string>
     <string name="notEdit">Editing canceled</string>
     <string name="chooser_share_post">Share post</string>
+    <string name="video">Watch</string>
 </resources>

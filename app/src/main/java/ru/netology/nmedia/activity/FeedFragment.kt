@@ -2,57 +2,39 @@ package ru.netology.nmedia.activity
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.netology.nmedia.databinding.ActivityMainBinding //Сгенерированный автоматически java класс
-import androidx.activity.viewModels
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-
-class MainActivity : AppCompatActivity() {
-
-    private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
-    private val viewModel: PostViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-/*
-        run {
-            val preferences = getPreferences(Context.MODE_PRIVATE)
-            preferences.edit().apply {
-                putString("key", "value") // putX
-                commit() // commit - синхронно, apply - асинхронно
-            }
-        }
-
-        run {
-            getPreferences(Context.MODE_PRIVATE)
-                .getString("key", "no value")?.let {
-                    Snackbar.make(binding.root, it, BaseTransientBottomBar.LENGTH_INDEFINITE)
-                        .show()
-                            }
-        }
- */
-
-
-        val editPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.changeContentAndSave(result)
-            viewModel.save()
-        }
-
-
+class FeedFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View { //Проверка на null не нужна!
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
+        val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
         val adapter = PostsAdapter(object : OnInteractionListener {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
-                editPostLauncher.launch(post.content)
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    }
+                )
             }
 
             override fun onPlay(post: Post) {
@@ -87,10 +69,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(shareIntent) //Запуск Activity
             }
         })
-
         binding.list.adapter = adapter
 
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             val newPost = adapter.currentList.size < posts.size
             adapter.submitList(posts) { //Добавляет элементы в RecyclerView
                 if (newPost) {
@@ -99,8 +80,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.fab.setOnClickListener {
-            editPostLauncher.launch(null)
+        binding.fab.setOnClickListener { //Обработчик нажатия кнопки добавления постов
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+
+        return binding.root
+    }
+    companion object {
+        var Bundle.idArg by LongArg
     }
 }

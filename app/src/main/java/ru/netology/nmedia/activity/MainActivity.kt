@@ -4,16 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.activity.result.launch
 import ru.netology.nmedia.databinding.ActivityMainBinding //Сгенерированный автоматически java класс
 import androidx.activity.viewModels
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
@@ -26,9 +22,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+/*
+        run {
+            val preferences = getPreferences(Context.MODE_PRIVATE)
+            preferences.edit().apply {
+                putString("key", "value") // putX
+                commit() // commit - синхронно, apply - асинхронно
+            }
+        }
+
+        run {
+            getPreferences(Context.MODE_PRIVATE)
+                .getString("key", "no value")?.let {
+                    Snackbar.make(binding.root, it, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                        .show()
+                            }
+        }
+ */
+
+
         val editPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
             result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
+            viewModel.changeContentAndSave(result)
             viewModel.save()
         }
 
@@ -85,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener {
-            editPostLauncher.launch(null) // Убрать null?
+            editPostLauncher.launch(null)
         }
     }
 }

@@ -6,7 +6,7 @@ data class Post(
     val content: String = "", //Текст сообщения
     val published: String = "", //Дата и время публикации
     val likedByMe: Boolean = false,  //Лайк включен или отключен
-    val likeClickCount: Long = 0L, //Счётчик лайков
+    val likes: Long = 0L, //Счётчик лайков
     val shareClickCount: Long = 0L, //Счётчик репостов
     val lookClickCount: Long = 0L, //Счётчик просмотров
     val video: String = "" //Для ссылок на видео из YouTube

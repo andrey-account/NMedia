@@ -68,6 +68,11 @@ class FeedFragment : Fragment() {
                 )//Удобное окно выбора репоста
                 startActivity(shareIntent) //Запуск Activity
             }
+
+            override fun onPostFragment(post: Post) { //Переопределение функции для перехода
+                findNavController().navigate(R.id.action_feedFragment_to_postFragment,
+                Bundle().apply {idArg = post.id}) //на фрагмент отдельного поста
+            }
         })
         binding.list.adapter = adapter
 

@@ -43,24 +43,31 @@ class PostViewHolder(
                 onInteractionListener.onPlay(post)
             }
 
-
             like.isChecked = post.likedByMe
             like.text = likeText(post.likes)
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
 
-
             share.text = likeText(post.shareClickCount)
             share.setOnClickListener {
                 onInteractionListener.onShare(post) //with(onShareListener){onShare(post)}
             }
 
-
             look.setOnClickListener {
                 onInteractionListener.onLook(post) //onLookListener(post)
             }
             lookTextView.text = likeText(post.lookClickCount)
+
+            content.setOnClickListener { //При нажатии на текст поста должен произойти переход
+                onInteractionListener.onPostFragment(post) //на фрагмент этого поста
+            }
+            published.setOnClickListener { //При нажатии на время публикации поста должен произойти
+                onInteractionListener.onPostFragment(post) //переход на фрагмент этого поста
+            }
+            avatar.setOnClickListener {  //При нажатии на аватар поста должен произойти
+                onInteractionListener.onPostFragment(post) //переход на фрагмент этого поста
+            }
         }
     }
 }

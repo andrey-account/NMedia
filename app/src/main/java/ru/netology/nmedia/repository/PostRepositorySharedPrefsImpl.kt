@@ -80,8 +80,8 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
         return Calendar.getInstance().time
     }
     private val author = "Андрей"
-    override fun save(post: Post) {
-        if (post.content != ""){//post.id == 0L Изменил условие, потому что при создании поста создавался ещё один пустой
+    override fun save(post: Post) { //post.id == 0L
+        if (post.content != ""){// Изменил условие, потому что при создании поста создавался ещё один пустой
             posts = listOf(
                 post.copy(
                     id = nextId++,

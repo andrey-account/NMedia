@@ -9,4 +9,5 @@ interface OnInteractionListener{
     fun onEdit(post: Post) {} //Для редактирования поста
     fun onLook(post: Post) {} // Для обработки нажатия кнопки look
     fun onPlay(post: Post) {} //Для запуска видео
+    fun onPostFragment(post: Post) {} //HW 11 Fragment
 }

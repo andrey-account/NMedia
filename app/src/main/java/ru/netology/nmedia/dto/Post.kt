@@ -7,8 +7,8 @@ data class Post(
     val published: String = "", //Дата и время публикации
     val likedByMe: Boolean = false,  //Лайк включен или отключен
     val likes: Long = 0L, //Счётчик лайков
-    val shareClickCount: Long = 0L, //Счётчик репостов
-    val lookClickCount: Long = 0L, //Счётчик просмотров
+    val shares: Long = 0L, //Счётчик репостов
+    val looks: Long = 0L, //Счётчик просмотров
     val video: String = "" //Для ссылок на видео из YouTube
 )
 //Значения по умолчанию добавлены, чтобы было проще писать тесты

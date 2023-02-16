@@ -49,7 +49,7 @@ class PostViewHolder(
                 onInteractionListener.onLike(post)
             }
 
-            share.text = likeText(post.shareClickCount)
+            share.text = likeText(post.shares)
             share.setOnClickListener {
                 onInteractionListener.onShare(post) //with(onShareListener){onShare(post)}
             }
@@ -57,7 +57,7 @@ class PostViewHolder(
             look.setOnClickListener {
                 onInteractionListener.onLook(post) //onLookListener(post)
             }
-            lookTextView.text = likeText(post.lookClickCount)
+            lookTextView.text = likeText(post.looks)
 
             content.setOnClickListener { //При нажатии на текст поста должен произойти переход
                 onInteractionListener.onPostFragment(post) //на фрагмент этого поста

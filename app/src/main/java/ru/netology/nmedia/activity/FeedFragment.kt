@@ -88,9 +88,9 @@ class FeedFragment : Fragment() {
         binding.fab.setOnClickListener { //Обработчик нажатия кнопки добавления постов
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
-
         return binding.root
     }
+
     companion object {
         var Bundle.idArg by LongArg
     }

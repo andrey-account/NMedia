@@ -81,48 +81,48 @@ class ExampleInstrumentedTest {
 
     @Test
     fun tenShares() {
-        val post = Post(shareClickCount = 10)
+        val post = Post(shares = 10)
         val expected = "10"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
     @Test
     fun thousandShares() {
-        val post = Post(shareClickCount = 1000)
+        val post = Post(shares = 1000)
         val expected = "1K"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
 
     @Test
     fun thousandAndHundredShares() {
-        val post = Post(shareClickCount = 1100)
+        val post = Post(shares = 1100)
         val expected = "1.1K"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
 
     @Test
     fun tenThousandShares() {
-        val post = Post(shareClickCount = 10_000)
+        val post = Post(shares = 10_000)
         val expected = "10K"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionShares() {
-        val post = Post(shareClickCount = 1_000_000)
+        val post = Post(shares = 1_000_000)
         val expected = "1M"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
 
     @Test
     fun millionAndThousandShares() {
-        val post = Post(shareClickCount = 1_100_000)
+        val post = Post(shares = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(post.shareClickCount)
+        val actual = likeText(post.shares)
         assertEquals(expected, actual)
     }
 
@@ -133,48 +133,48 @@ class ExampleInstrumentedTest {
 
     @Test
     fun lookTen() {
-        val post = Post(lookClickCount = 10)
+        val post = Post(looks = 10)
         val expected = "10"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
     @Test
     fun lookThousand() {
-        val post = Post(lookClickCount = 1_000)
+        val post = Post(looks = 1_000)
         val expected = "1K"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookThousandAndHundred() {
-        val post = Post(lookClickCount = 1_100)
+        val post = Post(looks = 1_100)
         val expected = "1.1K"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookTenThousand() {
-        val post = Post(lookClickCount = 10_000)
+        val post = Post(looks = 10_000)
         val expected = "10K"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookMillion() {
-        val post = Post(lookClickCount = 1_000_000)
+        val post = Post(looks = 1_000_000)
         val expected = "1M"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
 
     @Test
     fun lookMillionAndThousand() {
-        val post = Post(lookClickCount = 1_100_000)
+        val post = Post(looks = 1_100_000)
         val expected = "1.1M"
-        val actual = likeText(post.lookClickCount)
+        val actual = likeText(post.looks)
         assertEquals(expected, actual)
     }
 }

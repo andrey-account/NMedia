@@ -43,8 +43,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "20 сентября в 10:14",
             likedByMe = false,
             likes = 1_099_999,
-            shareClickCount = 1_099_999,
-            lookClickCount = 1_099_999,
+            shares = 1_099_999,
+            looks = 1_099_999,
         ),
         Post(
             id = nextId++,
@@ -53,8 +53,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "19 сентября в 14:12",
             likedByMe = false,
             likes = 1_099_999,
-            shareClickCount = 1_099_999,
-            lookClickCount = 1_099_999,
+            shares = 1_099_999,
+            looks = 1_099_999,
         ),
         Post(
             id = nextId++,
@@ -63,8 +63,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "19 сентября в 10:24",
             likedByMe = false,
             likes = 999_999,
-            shareClickCount = 999_999,
-            lookClickCount = 999_999,
+            shares = 999_999,
+            looks = 999_999,
         ),
         Post(
             id = nextId++,
@@ -73,8 +73,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "18 сентября в 10:12",
             likedByMe = false,
             likes = 9_999,
-            shareClickCount = 9_999,
-            lookClickCount = 9_999,
+            shares = 9_999,
+            looks = 9_999,
         ),
         Post(
             id = nextId++,
@@ -83,8 +83,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "21 мая в 18:36",
             likedByMe = true,
             likes = 999, //Счётчик лайков
-            shareClickCount = 999, //Счётчик репостов
-            lookClickCount = 999, //Счётчик просмотров
+            shares = 999, //Счётчик репостов
+            looks = 999, //Счётчик просмотров
         ),
         Post(
             id = nextId++, //Пустой пост для проверки редактирования
@@ -135,14 +135,14 @@ private val author = "Андрей"
 
     override fun shareById(id: Long) {
         posts = posts.map{
-            if (it.id != id) it else it.copy(shareClickCount = it.shareClickCount + 1)
+            if (it.id != id) it else it.copy(shares = it.shares + 1)
         }
         data.value = posts
     }
 
     override fun look(id: Long) {
         posts = posts.map{
-            if (it.id != id) it else it.copy(lookClickCount = it.lookClickCount + 1)
+            if (it.id != id) it else it.copy(looks = it.looks + 1)
         }
         data.value = posts
     }

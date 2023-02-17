@@ -116,7 +116,7 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
 
     override fun shareById(id: Long) {
         posts = posts.map {
-            if (it.id != id) it else it.copy(shareClickCount = it.shareClickCount + 1)
+            if (it.id != id) it else it.copy(shares = it.shares + 1)
         }
         data.value = posts
         sync()
@@ -124,7 +124,7 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
 
     override fun look(id: Long) {
         posts = posts.map {
-            if (it.id != id) it else it.copy(lookClickCount = it.lookClickCount + 1)
+            if (it.id != id) it else it.copy(looks = it.looks + 1)
         }
         data.value = posts
         sync()

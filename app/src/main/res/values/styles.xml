@@ -13,7 +13,8 @@
         <item name="android:textColor">"@color/colorControlNormal"</item>
     </style>
 
-    <style name="Widget.AppTheme.LikeButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+    <style name="Widget.AppTheme.LikeButton"
+        parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="iconTint">@color/likes_checkbox_tint</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>

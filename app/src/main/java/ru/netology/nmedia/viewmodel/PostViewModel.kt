@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositorySQLiteImpl
+import ru.netology.nmedia.repository.PostRepositoryRoomImpl
 
 private val empty = Post(
     id = 0L,
@@ -15,24 +15,21 @@ private val empty = Post(
     likedByMe = false,
     published = "",
     likes = 0L,
-    shares = 0L
+    shares = 0L,
+    video = "https://www.youtube.com/watch?v=O80turoMNgM"
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application){
 
-    private val repository: PostRepository = PostRepositorySQLiteImpl(
-        AppDb.getInstance(application).postDao
+    private val repository: PostRepository = PostRepositoryRoomImpl(
+        AppDb.getInstance(context = application).postDao
     )
-    //private val repository: PostRepository = PostRepositorySharedPrefsImpl(application)
-    //private val repository: PostRepository = PostRepositoryFilesImpl(application)
 
     val data = repository.getAll() //Хранит список постов
     private val edited = MutableLiveData(empty) //Хранит текущий редактируемый элемент
-
-
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
-    fun look(id: Long) = repository.look(id)
+    fun look(id: Long) = repository.look(id) //Просмотры постов
     fun removeById(id: Long) = repository.removeById(id) //Для удаления постов
 
     fun save() {

@@ -37,11 +37,6 @@ class FeedFragment : Fragment() {
                 )
             }
 
-            override fun onPlay(post: Post) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-                startActivity(intent)
-            }
-
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
             }
@@ -53,20 +48,22 @@ class FeedFragment : Fragment() {
             }
 
             override fun onShare(post: Post) {
+                viewModel.shareById(post.id)
                 //.apply позволяет обращаться к объекту по его свойствам, не указывая вначале имя.
                 val intent = Intent().apply { //Вызываем конструктор класса Intent
                     action = Intent.ACTION_SEND //Заполняем данными
                     putExtra(
-                        Intent.EXTRA_TEXT,
-                        post.content
-                    ) //Кладём данные внутрь Intent(ключ и данные)
+                        Intent.EXTRA_TEXT, post.content) //Кладём данные внутрь Intent(ключ и данные)
                     type = "text/plain" //MIME-тип данных
                 }
-                val shareIntent = Intent.createChooser(
-                    intent,
-                    getString(R.string.chooser_share_post)
-                )//Удобное окно выбора репоста
+                val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))//Удобное окно выбора репоста
                 startActivity(shareIntent) //Запуск Activity
+            }
+
+            override fun onPlay(post: Post) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                val playIntent = Intent.createChooser(intent, getString(R.string.video))
+                startActivity(intent)
             }
 
             override fun onPostFragment(post: Post) { //Переопределение функции для перехода

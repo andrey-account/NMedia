@@ -26,4 +26,5 @@ changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
     <string name="notEdit">Editing canceled</string>
     <string name="chooser_share_post">Share post</string>
     <string name="video">Watch</string>
+    <string name="draftText">Draft saved</string>
 </resources>

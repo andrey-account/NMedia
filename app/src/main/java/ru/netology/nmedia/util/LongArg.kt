@@ -4,13 +4,10 @@ import android.os.Bundle
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-object LongArg: ReadWriteProperty<Bundle, Long?> {
+object LongArg: ReadWriteProperty<Bundle, Long> {
 
-    override fun getValue(thisRef: Bundle, property: KProperty<*>) = thisRef.getLong(property.name)
-
-    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: Long?) {
-        if (value != null) {
+    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: Long) {
             thisRef.putLong(property.name, value)
-        }
     }
+    override fun getValue(thisRef: Bundle, property: KProperty<*>) = thisRef.getLong(property.name)
 }

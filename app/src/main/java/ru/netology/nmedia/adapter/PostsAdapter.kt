@@ -1,6 +1,5 @@
 package ru.netology.nmedia.adapter
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

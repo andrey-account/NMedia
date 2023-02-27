@@ -35,7 +35,7 @@ class NewPostFragment : Fragment() {
         return binding.root
     }
 
-    companion object { //Объект, принадлежащий неявно всем экземплярам класса
+    companion object {
         var Bundle.textArg by StringArg
     }
 }

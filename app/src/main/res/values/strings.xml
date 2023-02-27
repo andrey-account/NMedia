@@ -26,4 +26,12 @@ changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
     <string name="notEdit">Editing canceled</string>
     <string name="chooser_share_post">Share post</string>
     <string name="video">Watch</string>
+    <string name="draftText">Draft saved</string>
+    <string name="google_play_unavailable">Google Api Unavailable</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_new_post" >User %1$s published new post:</string>
+    <string name="notification_default" >New notification from NMedia</string>
+    <string name="notification_unknown">Unable to read data. Consider updating application</string>
 </resources>

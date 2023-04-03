@@ -17,7 +17,7 @@ import ru.netology.nmedia.databinding.ActivityAppBinding
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this@AppActivity) //Строка из Google
+        FirebaseApp.initializeApp(this@AppActivity)
         val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

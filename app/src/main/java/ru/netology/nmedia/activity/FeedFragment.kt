@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
@@ -19,13 +21,15 @@ import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
+
+    private val viewModel: PostViewModel by activityViewModels()
+    //val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View { //Проверка на null не нужна!
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
-        val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
         val adapter = PostsAdapter(object : OnInteractionListener {
 
             override fun onEdit(post: Post) {
@@ -38,14 +42,16 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id)
-            }
-            override fun onLook(post: Post) {
-                viewModel.look(post.id)
+                viewModel.likeById(post.id, post)
             }
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
             }
+
+            override fun onLook(post: Post) {
+                viewModel.look(post.id)
+            }
+
 
             override fun onShare(post: Post) {
                 viewModel.shareById(post.id)
@@ -73,13 +79,20 @@ class FeedFragment : Fragment() {
         })
         binding.list.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            val newPost = adapter.currentList.size < posts.size
-            adapter.submitList(posts) { //Добавляет элементы в RecyclerView
-                if (newPost) {
-                    binding.list.smoothScrollToPosition(0) //Переход к новому добавленному посту
-                }
-            }
+        viewModel.data.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.posts)
+            binding.progress.isVisible = state.loading
+            binding.errorGroup.isVisible = state.error
+            binding.emptyText.isVisible = state.empty
+        }
+
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadPosts()
+            binding.swipeRefresh.isRefreshing = false
         }
 
         binding.fab.setOnClickListener { //Обработчик нажатия кнопки добавления постов

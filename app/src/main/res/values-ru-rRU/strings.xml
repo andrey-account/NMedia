@@ -17,6 +17,13 @@
     <string name="description_post_menu">Меню поста</string>
     <string name="description_post_author_avatar">Аватар автора поста</string>
     <string name="error_empty_content">Контент не может быть пустым!</string>
+
+    <string name="published">Время публикации</string>
+    <string name="author">Автор</string>
+    <string name="content">Контент</string>
+    <string name="share">Поделиться</string>
+
+
     <string name="description_post_like">Нравится</string>
     <string name="description_video">Превью видео</string>
     <string name="add_post">Добавить пост</string>

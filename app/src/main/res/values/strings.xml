@@ -17,6 +17,12 @@ changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
     <string name="description_post_menu">three dots menu</string>
     <string name="description_post_author_avatar">Avatar of the author of the post</string>
     <string name="error_empty_content">The content cannot be empty!</string>
+
+    <string name="published">Publication time</string>
+    <string name="author">Author</string>
+    <string name="content">Content</string>
+    <string name="share">Share</string>
+
     <string name="description_post_like">Like</string>
     <string name="description_video">Video preview</string>
     <string name="add_post">Add post</string>

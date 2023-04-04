@@ -15,16 +15,17 @@
         app:layout_anchorGravity="center">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginEnd="176dp"
-            android:layout_marginBottom="80dp"
-            android:contentDescription="@string/add_post"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add_24" />
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_marginEnd="176dp"
+                android:layout_marginBottom="80dp"
+                android:contentDescription="@string/add_post"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_add_24"
+                tools:ignore="ImageContrastCheck" />
 
         <Button
             android:id="@+id/retryButton"

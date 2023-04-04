@@ -71,9 +71,10 @@ class PostFragment : Fragment() {
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { it -> // posts
             val postId = arguments?.idArg ?: -1
-            val post = posts.find { it.id == postId } ?: run {
+          val post = it.posts.find { it.id == postId } ?: run {
+          //val post = posts.find { posts.id == postId } ?: run {
                 findNavController().navigateUp()
                 return@observe
             }

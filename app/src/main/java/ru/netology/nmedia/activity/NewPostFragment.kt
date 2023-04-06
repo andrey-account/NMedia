@@ -27,13 +27,18 @@ class NewPostFragment : Fragment() {
         val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
 
         binding.ok.setOnClickListener {
-            val text = binding.content.text.toString()
-            viewModel.changeContentAndSave(text)
-            AndroidUtils.hideKeyboard(requireView())
+            val text = binding.content.text.toString() //Преобразование в строку всего, что в текстовом поле "content"
+            viewModel.changeContentAndSave(text) //Сохранение текста
+            viewModel.save() //Вызовет _postCreated.postValue(Unit)
+            AndroidUtils.hideKeyboard(requireView()) //Убирает клавиатуру
+        }
+        viewModel.postCreated.observe(viewLifecycleOwner) {
+            viewModel.loadPosts()
             findNavController().navigateUp()
         }
         return binding.root
     }
+
 
     companion object {
         var Bundle.textArg by StringArg

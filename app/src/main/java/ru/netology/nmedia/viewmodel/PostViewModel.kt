@@ -13,24 +13,21 @@ import java.io.IOException
 import kotlin.concurrent.thread
 
 private val empty = Post(
-    id = 0L,
+    id = 0,
     content = "",
     author = "",
     likedByMe = false,
-    published = "",
-    likes = 0L,
-    shares = 0L,
-    video = "https://www.youtube.com/watch?v=O80turoMNgM"
+    likes = 0,
+    published = ""
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-
+    // упрощённый вариант
     private val repository: PostRepository = PostRepositoryImpl()
     private val _data = MutableLiveData(FeedModel())
-    val data: LiveData<FeedModel> //Хранит список постов
+    val data: LiveData<FeedModel>
         get() = _data
-
-    private val edited = MutableLiveData(empty) //Хранит текущий редактируемый элемент
+    private val edited = MutableLiveData(empty)
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
@@ -41,20 +38,18 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadPosts() {
         thread {
-            _data.postValue(FeedModel(loading = true)) // Начинаем загрузку
+            // Начинаем загрузку
+            _data.postValue(FeedModel(loading = true))
             try {
-                val posts = repository.getAll() // Данные успешно получены
+                // Данные успешно получены
+                val posts = repository.getAll()
                 FeedModel(posts = posts, empty = posts.isEmpty())
             } catch (e: IOException) {
-                FeedModel(error = true) // Получена ошибка
+                // Получена ошибка
+                FeedModel(error = true)
             }.also(_data::postValue)
         }
     }
-
-    fun shareById(id: Long) = repository.shareById(id)
-
-    fun look(id: Long) = repository.look(id) //Просмотры постов
-
 
     fun save() {
         edited.value?.let {
@@ -66,21 +61,18 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = empty
     }
 
-    fun edit(post: Post) { edited.value = post } //Присваивается теущий отредактированный пост
+    fun edit(post: Post) {
+        edited.value = post
+    }
 
-
-    fun changeContentAndSave(content: String) {
+    fun changeContent(content: String) {
         val text = content.trim()
         if (edited.value?.content == text) {
             return
         }
-        edited.value?.let {
-            thread { //Добавил thread, приложение перестало падать после добавления поста.
-                repository.save(it.copy(content = text))
-            }
-        edited.value = empty
-        }
+        edited.value = edited.value?.copy(content = text)
     }
+
 
     fun likeById(id: Long, post: Post) {
         thread {
@@ -100,19 +92,26 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun removeById(id: Long) {
-        thread {
-            val old = _data.value?.posts.orEmpty()// Оптимистичная модель
-            _data.postValue(
-                _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                    .filter { it.id != id }
+    companion object {
+        fun removeById(id: Long) {}
+    }
+
+
+        fun removeById(id: Long) {
+            thread {
+                val old = _data.value?.posts.orEmpty()// Оптимистичная модель
+                _data.postValue(
+                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
+                        .filter { it.id != id }
+                    )
                 )
-            )
-            try {
-                repository.removeById(id)
-            } catch (e: IOException) {
-                _data.postValue(_data.value?.copy(posts = old))
+                try {
+                    repository.removeById(id)
+                } catch (e: IOException) {
+                    _data.postValue(_data.value?.copy(posts = old))
+                }
             }
+
         }
     }
-}
+

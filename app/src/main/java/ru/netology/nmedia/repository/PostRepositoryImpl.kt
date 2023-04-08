@@ -9,6 +9,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import ru.netology.nmedia.dto.Post
 import java.util.concurrent.TimeUnit
 
+
 class PostRepositoryImpl: PostRepository {
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -17,25 +18,22 @@ class PostRepositoryImpl: PostRepository {
     private val typeToken = object : TypeToken<List<Post>>() {}
 
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:9999" //Можно вписать IP своего ПК
+        private const val BASE_URL = "http://10.0.2.2:9999"
         private val jsonType = "application/json".toMediaType()
     }
 
     override fun getAll(): List<Post> {
         val request: Request = Request.Builder()
-            .url("${BASE_URL}/api/slow/posts") //Путь до метода
+            .url("${BASE_URL}/api/slow/posts")
             .build()
 
         return client.newCall(request)
             .execute()
-            .let { it.body?.string() ?: throw RuntimeException("body is null") }
-            .let {
-                gson.fromJson(it, typeToken.type)
-            }
+            .let { it.body.string() ?: throw RuntimeException("body is null") }
+            .let { gson.fromJson(it, typeToken.type) }
     }
 
-
-    override fun likeById(post: Post) { //post: Post
+    override fun likeById(post: Post): Post {
         val request: Request = if (!post.likedByMe) {
             Request.Builder()
                 .post("".toRequestBody())
@@ -52,10 +50,6 @@ class PostRepositoryImpl: PostRepository {
             .let { gson.fromJson(it, Post::class.java) }
     }
 
-
-    override fun shareById(id: Long) {}
-
-    override fun look(id: Long) {}
 
 
     override fun save(post: Post) {

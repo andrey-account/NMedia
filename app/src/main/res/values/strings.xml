@@ -1,47 +1,23 @@
 <resources>
     <string name="app_name">NMedia</string>
-    <string name="nmedia">NMedia!</string>
-
-    <string name="messageWithLink">Hi, this is a new Netology! Once upon a time, Netology
-it started with intensive courses in online marketing. Then
-there are courses in design, development, analytics
-and management. We grow ourselves and help to grow
-students: from beginners to confident professionals.
-But the most important thing remains with us: we believe that
-everyone already has the power that makes them want
-bigger, aim higher, run faster. Our mission
-- help to embark on the path of growth and start a chain
-changes -> <a href="https://netology.ru">http://netolo.gy/fyb</a></string>
-    <string name="statusBar">Netology. University of Internet Professions of the Future</string>
-    <string name="time">21 may at 18:36</string>
-    <string name="description_post_menu">three dots menu</string>
-    <string name="description_post_author_avatar">Avatar of the author of the post</string>
-    <string name="error_empty_content">The content cannot be empty!</string>
-
-    <string name="published">Publication time</string>
-    <string name="author">Author</string>
-    <string name="content">Content</string>
-    <string name="share">Share</string>
-
+    <string name="hello">Hello World!</string>
+    <string name="description_post_author_avatar">Post author avatar</string>
+    <string name="description_post_menu">Post menu</string>
     <string name="description_post_like">Like</string>
-    <string name="description_video">Video preview</string>
-    <string name="add_post">Add post</string>
-    <string name="post_text">Input post text</string>
-    <string name="menu_edit">Change</string>
-    <string name="menu_remove">Delete</string>
-    <string name="notEdit">Editing canceled</string>
+    <string name="description_post_share">Share</string>
+    <string name="description_post_save">Save</string>
+    <string name="menu_remove">Remove</string>
+    <string name="post_text">Post Text</string>
+    <string name="menu_edit">Edit</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
     <string name="chooser_share_post">Share post</string>
-    <string name="video">Watch</string>
-    <string name="draftText">Draft saved</string>
+    <string name="add_post">Add post</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="error_loading">Something went wrong. Try again later</string>
+    <string name="save">Save</string>
     <string name="google_play_unavailable">Google Api Unavailable</string>
     <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
     <string name="channel_remote_name">Server notifications</string>
     <string name="channel_remote_description">Notifications from remote server</string>
-    <string name="notification_new_post" >User %1$s published new post:</string>
-    <string name="notification_default" >New notification from NMedia</string>
-    <string name="notification_unknown">Unable to read data. Consider updating application</string>
-
-    <string name="error_loading">Something went wrong. Try again later</string>
-    <string name="retry_loading">Retry</string>
-    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
 </resources>

@@ -44,7 +44,7 @@ class FCMService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(token: String) {
+    override fun onNewToken(token: String) { //Генерирует новый токен (адрес в приложении, установленном на смартфоне)
         println(token)
     }
 

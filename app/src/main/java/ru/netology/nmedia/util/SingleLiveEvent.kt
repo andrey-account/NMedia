@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 class SingleLiveEvent<T> : MutableLiveData<T>() {
-    // FIXME: упрощённый вариант, пока не прошли Atomic'и
+    // FIXME: упрощённый вариант, пока не прошли Atomic
     private var pending = false
     
     override fun observe(owner: LifecycleOwner, observer: Observer<in T?>) {

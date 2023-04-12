@@ -37,7 +37,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onRemove(post: Post) {
-                PostViewModel.removeById(post.id)
+                PostViewModel.removeById()
             }
 
             override fun onShare(post: Post) {
@@ -69,8 +69,8 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 
-        binding.swiperefresh.setOnRefreshListener {
-            viewModel.loadPosts()
+        binding.swiperefresh.setOnRefreshListener { // Обновление экрана
+            viewModel.loadPosts() //Загрузка постов
             binding.swiperefresh.isRefreshing = false
         }
 

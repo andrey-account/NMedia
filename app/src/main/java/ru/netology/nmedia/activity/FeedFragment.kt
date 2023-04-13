@@ -37,19 +37,25 @@ class FeedFragment : Fragment() {
             }
 
             override fun onRemove(post: Post) {
-                PostViewModel.removeById()
+                viewModel.removeById(post.id)
             }
 
             override fun onShare(post: Post) {
                 //.apply позволяет обращаться к объекту по его свойствам, не указывая вначале имя.
                 val intent = Intent().apply { //Вызываем конструктор класса Intent
                     action = Intent.ACTION_SEND //Заполняем данными
-                    putExtra(Intent.EXTRA_TEXT, post.content) //Кладём данные внутрь Intent(ключ и данные)
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        post.content
+                    ) //Кладём данные внутрь Intent(ключ и данные)
                     type = "text/plain" //MIME-тип данных
                 }
 
                 val shareIntent =
-                    Intent.createChooser(intent, getString(R.string.chooser_share_post)) //Удобное окно выбора репоста
+                    Intent.createChooser(
+                        intent,
+                        getString(R.string.chooser_share_post)
+                    ) //Удобное окно выбора репоста
                 startActivity(shareIntent) //Запуск Activity
             }
         })

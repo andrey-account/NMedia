@@ -19,7 +19,7 @@ interface OnInteractionListener {
 
 class PostsAdapter(
     private val onInteractionListener: OnInteractionListener, //Слушатель взаимодействия?
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback<Any>()) {
+) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
@@ -76,20 +76,12 @@ class PostViewHolder(
     }
 }
 
-class PostDiffCallback<T> : DiffUtil.ItemCallback<Post>() {
+class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem == newItem
-    }
-
-    fun onSuccess(fromJson: T) {
-
-    }
-
-    fun onError(e: Exception) {
-
     }
 }

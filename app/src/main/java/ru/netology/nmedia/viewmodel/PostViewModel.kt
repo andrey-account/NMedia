@@ -1,8 +1,5 @@
-@file:Suppress("NAME_SHADOWING")
-
 package ru.netology.nmedia.viewmodel
 
-import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -39,7 +36,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadPosts() {
         _data.postValue(FeedModel(loading = true))
-        repository.getAll(object : PostRepository.PostCallback<List<Post>>{
+        repository.getAll(object : PostRepository.PostCallback<List<Post>> {
             override fun onSuccess(value: List<Post>) {
                 _data.postValue(FeedModel(posts = value, empty = value.isEmpty()))
             }
@@ -52,8 +49,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun save() {
         edited.value?.let {
-            if (it !== empty){
-                repository.save(it, object : PostRepository.PostCallback<Post>{
+            if (it !== empty) {
+                repository.save(it, object : PostRepository.PostCallback<Post> {
                     override fun onSuccess(value: Post) {
                         _postCreated.postValue(Unit)
                     }
@@ -84,44 +81,41 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun likeById(id: Long, post: Post) {
-        repository.likeById(post, object : PostRepository.PostCallback<Post>{
+        repository.likeById(post, object : PostRepository.PostCallback<Post> {
             override fun onSuccess(value: Post) {
                 val posts = _data.value?.posts.orEmpty().map {
                     if (it.id == id) {
                         value
-            } else {
-                it
-        }
-    }
-    _data.postValue(_data.value?.copy(posts = posts))
+                    } else {
+                        it
+                    }
+                }
+                _data.postValue(_data.value?.copy(posts = posts))
             }
+
             override fun onError(e: Exception) {
                 println(e.message.toString())
             }
         })
     }
 
-    companion object {
-        fun removeById() {}
+
+
+    fun removeById(id: Long) {
+        val old = _data.value?.posts.orEmpty()// Оптимистичная модель
+        repository.removeById(id, object : PostRepository.PostCallback<Unit> {
+            override fun onSuccess(value: Unit) {
+                _data.postValue(
+                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
+                        .filter { it.id != id }
+                    )
+                )
+            }
+
+            override fun onError(e: Exception) {
+                _data.postValue(_data.value?.copy(posts = old))
+            }
+        })
     }
-
-
-        @SuppressLint("SuspiciousIndentation")
-        fun removeById(id: Long) {
-            val old = _data.value?.posts.orEmpty()// Оптимистичная модель
-                repository.removeById(id, object : PostRepository.PostCallback<Unit>{
-                    override fun onSuccess(value: Unit) {
-                        _data.postValue(
-                            _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                                .filter { it.id != id }
-                            )
-                        )
-                    }
-
-                    override fun onError(e: Exception) {
-                        _data.postValue(_data.value?.copy(posts = old))
-                    }
-                })
-        }
-    }
+}
 

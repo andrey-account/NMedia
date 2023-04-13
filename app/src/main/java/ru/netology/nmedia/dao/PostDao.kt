@@ -8,12 +8,14 @@ import ru.netology.nmedia.entity.PostEntity
 
 @Dao
 interface PostDao {
-
-    @Query("SELECT*FROM PostEntity ORDER BY id DESC")
+    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getAll(): LiveData<List<PostEntity>>
 
     @Insert
     fun insert(post: PostEntity)
+
+    @Insert
+    fun insert(posts: List<PostEntity>)
 
     @Query("UPDATE PostEntity SET content = :content WHERE id = :id")
     fun updateContentById(id: Long, content: String)
@@ -25,24 +27,10 @@ interface PostDao {
         UPDATE PostEntity SET
         likes = likes + CASE WHEN likedByMe THEN -1 ELSE 1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
-        WHERE id = :id;
-    """)
+        WHERE id = :id
+        """)
     fun likeById(id: Long)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     fun removeById(id: Long)
-
-    @Query("""
-        UPdATE PostEntity SET
-        shares = shares + 1
-        WHERE id = :id
-    """)
-    fun shareById(id: Long)
-
-    @Query("""
-        UPdATE PostEntity SET
-        looks = looks + 1
-        WHERE id = :id
-    """)
-    fun look(id: Long)
 }

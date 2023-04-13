@@ -4,12 +4,12 @@ import android.os.Bundle
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-object StringArg: ReadWriteProperty<Bundle, String> {
+object StringArg: ReadWriteProperty<Bundle, String?> {
 
-    override fun getValue(thisRef: Bundle, property: KProperty<*>): String =
-        thisRef.getString(property.name).toString() //Получение текста из Bundle
-
-    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: String) {
+    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: String?) {
         thisRef.putString(property.name, value)
     }
+
+    override fun getValue(thisRef: Bundle, property: KProperty<*>): String? =
+        thisRef.getString(property.name) //Получение текста из Bundle
 }

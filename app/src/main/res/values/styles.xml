@@ -1,8 +1,14 @@
 <resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-    <style name="Widget.AppTheme.IconButton"
-        parent="Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="iconTint">#FF000000</item>
+    <style name="Widget.AppTheme.IconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">@color/icon_button_tint</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -10,18 +16,12 @@
         <item name="android:paddingEnd">@dimen/icon_button_padding</item>
         <item name="android:minWidth">@dimen/icon_button_min_size</item>
         <item name="android:minHeight">@dimen/icon_button_min_size</item>
-        <item name="android:textColor">"@color/colorControlNormal"</item>
     </style>
 
-    <style name="Widget.AppTheme.LikeButton"
-        parent="Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="iconTint">@color/likes_checkbox_tint</item>
-        <item name="iconPadding">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+    <style name="Widget.AppTheme.LikeCheckBox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">@color/like_checkbox_tint</item>
         <item name="android:minWidth">@dimen/icon_button_min_size</item>
         <item name="android:minHeight">@dimen/icon_button_min_size</item>
-        <item name="android:textColor">"@color/colorControlNormal"</item>
     </style>
 
 </resources>

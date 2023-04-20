@@ -9,7 +9,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
@@ -30,10 +32,19 @@ class FeedFragment : Fragment() {
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    }
+                )
             }
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id, post)
+                if (post.likedByMe) {
+                    viewModel.unlikeById(post.id)
+                } else {
+                    viewModel.likeById(post.id)
+                }
             }
 
             override fun onRemove(post: Post) {
@@ -41,22 +52,15 @@ class FeedFragment : Fragment() {
             }
 
             override fun onShare(post: Post) {
-                //.apply позволяет обращаться к объекту по его свойствам, не указывая вначале имя.
-                val intent = Intent().apply { //Вызываем конструктор класса Intent
-                    action = Intent.ACTION_SEND //Заполняем данными
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        post.content
-                    ) //Кладём данные внутрь Intent(ключ и данные)
-                    type = "text/plain" //MIME-тип данных
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
                 }
 
                 val shareIntent =
-                    Intent.createChooser(
-                        intent,
-                        getString(R.string.chooser_share_post)
-                    ) //Удобное окно выбора репоста
-                startActivity(shareIntent) //Запуск Activity
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(shareIntent)
             }
         })
         binding.list.adapter = adapter
@@ -75,9 +79,13 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 
-        binding.swiperefresh.setOnRefreshListener { // Обновление экрана
-            viewModel.loadPosts() //Загрузка постов
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.loadPosts()
             binding.swiperefresh.isRefreshing = false
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            Snackbar.make(requireView(), it.message as CharSequence, Snackbar.LENGTH_LONG).show()
         }
 
         return binding.root

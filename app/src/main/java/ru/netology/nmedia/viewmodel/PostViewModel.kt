@@ -31,9 +31,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
-    private val _error = SingleLiveEvent<Throwable>()
-    val error: LiveData<Throwable>
-        get() = _error
+    //private val _error = SingleLiveEvent<Throwable>()
+    val error = SingleLiveEvent<Throwable>()//LiveData<Throwable>
+        //get() = _error
 
     init {
         loadPosts()
@@ -48,7 +48,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onError(e: Exception) {
                 _data.postValue(FeedModel(error = true))
-                _error.value = Exception("Error: $e")
+                //error.value = Exception("Error: $e")
             }
         })
     }
@@ -61,7 +61,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onError(e: Exception) {
-                    _error.value = Exception("Error: $e")
+                    _data.postValue(FeedModel(error = true))
+                    //error.value = Exception("Error: $e")
                 }
             })
         }
@@ -80,7 +81,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onError(e: Exception) {
-                _error.value = Exception("Error: $e")
+                _data.postValue(FeedModel(error = true))
+                //error.value = Exception("Error: $e")
                 _data.postValue(_data.value?.copy(posts = old))
             }
 
@@ -114,7 +116,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onError(e: Exception) {
-                _error.value = Exception("Error: $e")
+                _data.postValue(FeedModel(error = true))
+                //error.value = Exception("Error: $e")
             }
         })
     }
@@ -135,7 +138,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
 
             override fun onError(e: Exception) {
-                _error.value = Exception("Error: $e")
+                _data.postValue(FeedModel(error = true))
+                //error.value = Exception("Error: $e")
             }
         })
     }

@@ -84,8 +84,8 @@ class FeedFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
-            Snackbar.make(requireView(), it.message as CharSequence, Snackbar.LENGTH_LONG).show()
+        viewModel.error.observe(viewLifecycleOwner) {//Всплывающее окно с ошибкой сервера
+            Snackbar.make(requireView(), R.string.error_loading, Snackbar.LENGTH_LONG).show() // it.message as CharSequence
         }
 
         return binding.root

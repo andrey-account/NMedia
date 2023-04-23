@@ -45,7 +45,7 @@ class NewPostFragment : Fragment() {
             viewModel.loadPosts()
             findNavController().navigateUp()
         }
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.data.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), R.string.error_loading, Toast.LENGTH_LONG).show() //it.message
         }
 

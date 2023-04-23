@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -51,25 +53,26 @@ class FeedFragment : Fragment() {
                 viewModel.removeById(post.id)
             }
 
-            override fun onShare(post: Post) {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, post.content)
-                    type = "text/plain"
-                }
+            override fun onShare(post: Post) { //Функция принимает объект класса пост в качестве параметра
+                val intent = Intent().apply {//Создаётся новый объект Intent, который будет использоваться для отправления текстовых данных.
+                    action = Intent.ACTION_SEND //Присвоение действия ACTION_SEND добавленному объекту Intent
+                    putExtra(Intent.EXTRA_TEXT, post.content)//Добавление текстовых данных (содержимого поста) внутрь объекта Intent
+                    type = "text/plain" //Присвоение типа данных "text/plain" добавленному объекту Intent
+                } /*В результате выполнения кода, объект Intent будет содержать текстовое сообщение из поста, которое можно отправить любым доступным для отправки способом на устройстве.
+Объект Intent является своеобразным "контейнером" для передачи информации между компонентами операционной системы Android. В данном случае, используется его функционал для отправки сообщения. */
 
                 val shareIntent =
                     Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
             }
         })
-        binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { state ->
-            adapter.submitList(state.posts)
-            binding.progress.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
-            binding.emptyText.isVisible = state.empty
-        }
+        binding.list.adapter = adapter //Устанавливает адаптер для RecyclerView, который находится в binding (в данном случае, это объект ViewBinding).
+        viewModel.data.observe(viewLifecycleOwner) { state -> //Ожидает изменения данных от viewModel (это может быть любой объект, который предоставляет данные для отображения) и выполняет блок кода внутри фигурных скобок, используя state (объект состояния) в качестве аргумента.
+            adapter.submitList(state.posts) //Отправляет новый список данных state.posts в адаптер, что приводит к обновлению списка элементов в RecyclerView.
+            binding.progress.isVisible = state.loading //Устанавливает видимость элемента ProgressBar (binding.progress) в соответствии со значением state.loading, которое может указывать, загружаются ли данные в данный момент или нет.
+            binding.errorGroup.isVisible = state.error //Устанавливает видимость группы элементов binding.errorGroup в соответствии со значением state.error, которое может указывать на наличие ошибок в получении данных.
+            binding.emptyText.isVisible = state.empty //Устанавливает видимость элемента TextView (binding.emptyText) в соответствии со значением state.empty, которое может указывать, пуст ли список данных или нет.
+        }//Этот код изменяет содержимое RecyclerView в соответствии с изменениями данных, получаемыми из viewModel. Он также отображает элементы интерфейса, такие как ProgressBar, в зависимости от текущего состояния получения данных.
 
         binding.retryButton.setOnClickListener {
             viewModel.loadPosts()
@@ -84,10 +87,17 @@ class FeedFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {//Всплывающее окно с ошибкой сервера
+
+        fun showError(errorMessage: String){
+            Toast.makeText(context, R.string.error_loading, Toast.LENGTH_LONG).show()
+        }
+        //if (viewModel.data.postValue = true) showError("ERROR SERVER!")
+
+
+        viewModel.data.observe(viewLifecycleOwner) {//Всплывающее окно с ошибкой сервера
+            //if(viewModel.data == true)
             Snackbar.make(requireView(), R.string.error_loading, Snackbar.LENGTH_LONG).show() // it.message as CharSequence
         }
-
         return binding.root
     }
 }

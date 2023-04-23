@@ -56,5 +56,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             println(it)
         }
-    }
+    } /*Функция проверяет доступность сервисов Google Play и выводит пользователю сообщение, если они недоступны.
+    А также извлекает токен обмена сообщениями Firebase и печатает его. */
 }

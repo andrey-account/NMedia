@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,7 +16,6 @@ import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -74,30 +72,26 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty //Устанавливает видимость элемента TextView (binding.emptyText) в соответствии со значением state.empty, которое может указывать, пуст ли список данных или нет.
         }//Этот код изменяет содержимое RecyclerView в соответствии с изменениями данных, получаемыми из viewModel. Он также отображает элементы интерфейса, такие как ProgressBar, в зависимости от текущего состояния получения данных.
 
-        binding.retryButton.setOnClickListener {
+        binding.retryButton.setOnClickListener {//Кнопка переподключения (попробовать снова)
             viewModel.loadPosts()
         }
 
-        binding.fab.setOnClickListener {
+        binding.fab.setOnClickListener {//Плавающая кнопка для добавления нового сообщения
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 
-        binding.swiperefresh.setOnRefreshListener {
+        binding.swiperefresh.setOnRefreshListener { //Обновление списка сообщений с помощью жеста pull-to-refresh
             viewModel.loadPosts()
             binding.swiperefresh.isRefreshing = false
         }
 
 
-        fun showError(errorMessage: String){
-            Toast.makeText(context, R.string.error_loading, Toast.LENGTH_LONG).show()
+        viewModel.data.observe(viewLifecycleOwner) { FeedModel -> //С помощью метода observe() устанавливается наблюдатель за изменением данных модели, который вызывает функцию, когда изменения обнаруживаются
+            if (FeedModel.error) { //Условие if должно проверять значение поля error на true
+                //Если значение равно true, то выполняется отображение всплывающего сообщения Snack bar, которое информирует пользователя о том, что произошла ошибка при загрузке данных.
+                Snackbar.make(requireView(), R.string.error_loading, Snackbar.LENGTH_LONG).show()
+            }
         }
-        //if (viewModel.data.postValue = true) showError("ERROR SERVER!")
-
-
-        viewModel.data.observe(viewLifecycleOwner) {//Всплывающее окно с ошибкой сервера
-            //if(viewModel.data == true)
-            Snackbar.make(requireView(), R.string.error_loading, Snackbar.LENGTH_LONG).show() // it.message as CharSequence
-        }
-        return binding.root
+        return binding.root //Функция возвращает корневой View фрагмента
     }
 }

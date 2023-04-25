@@ -7,7 +7,7 @@ import ru.netology.nmedia.api.PostsApi
 import ru.netology.nmedia.dto.Post
 
 
-class PostRepositoryImpl : PostRepository {
+class PostRepositoryImpl : PostRepository { //Класс репозиторий для получения списка постов
 
 
     override fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
@@ -31,7 +31,13 @@ class PostRepositoryImpl : PostRepository {
                     callback.onError(Exception(t))
                 }
             })
-    }
+    } /* Функция getAllAsync использует Retrofit, чтобы отправить запрос на сервер и получить ответ
+    с помощью асинхронных вызовов. Если успешный ответ содержит данные, то callback.onSuccess () возвращает список постов,
+    в противном случае вызывается callback.onError(), чтобы уведомить о любых ошибках, произошедших во время получения данных.
+    В обоих случаях объект callback, переданный в функцию, содержит обратный вызов для уведомления представления об изменениях в данных. */
+
+
+
 
     override fun saveAsync(post: Post, callback: PostRepository.Callback<Post>) {
         PostsApi.retrofitService.save(post)

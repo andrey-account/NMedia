@@ -123,12 +123,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     )
                 )
             }
-
-
             override fun onError(e: Exception) {
                 _data.postValue(FeedModel(error = true))
-                //error.value = Exception("Error: $e")//Присваивание значения переменной error с помощью оператора =, которому передаётся созданный объект Exception со строковым сообщением "Error: $e".
-            } //Во ViewModel или LiveData объект _error уведомляет пользовательский интерфейс об ошибке.
+            }
         })
     }
 }

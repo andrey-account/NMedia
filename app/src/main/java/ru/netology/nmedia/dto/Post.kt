@@ -6,9 +6,10 @@ data class Post(
     val authorAvatar: String,
     val content: String, //Текст сообщения
     val published: String, //Дата и время публикации
-    val likedByMe: Boolean, //Лайк включен или отключен
+    var likedByMe: Boolean, //Лайк включен или отключен
     val likes: Int = 0, //Счётчик лайков
-    val attachment: Attachment? //Вложение, аватарка
+    val attachment: Attachment?, //Вложение, аватарка
+    var repostAmount: Int
 )
 
 data class Attachment(

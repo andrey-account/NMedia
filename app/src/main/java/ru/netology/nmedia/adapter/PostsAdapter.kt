@@ -77,17 +77,17 @@ class PostViewHolder(
             }
 
 
-            val avatarUrl = "${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}"
+            val avatarUrl = "${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}"//Здесь создается переменная avatarUrl, которая хранит URL-адрес аватарки автора публикации. Она составляется из базового URL-адреса приложения (BuildConfig.BASE_URL), дополнительного пути /avatars/ и имени файла аватара (post.authorAvatar).
 
-            Glide.with(binding.avatar)
-                .load(avatarUrl)
-                .circleCrop()
-                .timeout(10_000)
-                .into(binding.avatar)
+            Glide.with(binding.avatar)//Glide должен знать контекст, в котором будет загружать изображение, так что пользователь указывает контекст, передавая представление, на которое он ссылается, с помощью binding.avatar.
+                .load(avatarUrl)//Загрузка изображения с указанным URL-адресом
+                .circleCrop()//Преобразование формы выходного изображения в круг
+                .timeout(10_000)// Установка времени ожидания на 10_000 миллисекунд (или 10 секунд) для запроса изображения
+                .into(binding.avatar)//Привязка загруженного изображения к представлению аватара
 
-            if (post.attachment == null) {
-                attachment.visibility = View.GONE
-            } else {
+            if (post.attachment == null) {//Если вложение отсутствует (post.attachment == null),
+                attachment.visibility = View.GONE//элемент attachment становится невидимым
+            } else {//В противном случае будет загружено изображение-вложение.
                 val attachmentUrl = "${BuildConfig.BASE_URL}/images/${post.attachment.url}"
                 Glide.with(binding.attachment)
                     .load(attachmentUrl)

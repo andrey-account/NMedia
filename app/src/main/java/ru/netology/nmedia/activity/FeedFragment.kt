@@ -40,11 +40,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                if (post.likedByMe) {
-                    viewModel.unlikeById(post.id)
-                } else {
-                    viewModel.likeById(post.id)
-                }
+                    viewModel.likeById(post)
             }
 
             override fun onRemove(post: Post) {
@@ -65,15 +61,19 @@ class FeedFragment : Fragment() {
             }
         })
         binding.list.adapter = adapter //Устанавливает адаптер для RecyclerView, который находится в binding (в данном случае, это объект ViewBinding).
-        viewModel.data.observe(viewLifecycleOwner) { state -> //Ожидает изменения данных от viewModel (это может быть любой объект, который предоставляет данные для отображения) и выполняет блок кода внутри фигурных скобок, используя state (объект состояния) в качестве аргумента.
-            adapter.submitList(state.posts) //Отправляет новый список данных state.posts в адаптер, что приводит к обновлению списка элементов в RecyclerView.
-            binding.progress.isVisible = state.loading //Устанавливает видимость элемента ProgressBar (binding.progress) в соответствии со значением state.loading, которое может указывать, загружаются ли данные в данный момент или нет.
-            binding.errorGroup.isVisible = state.error //Устанавливает видимость группы элементов binding.errorGroup в соответствии со значением state.error, которое может указывать на наличие ошибок в получении данных.
-            binding.emptyText.isVisible = state.empty //Устанавливает видимость элемента TextView (binding.emptyText) в соответствии со значением state.empty, которое может указывать, пуст ли список данных или нет.
-        }//Этот код изменяет содержимое RecyclerView в соответствии с изменениями данных, получаемыми из viewModel. Он также отображает элементы интерфейса, такие как ProgressBar, в зависимости от текущего состояния получения данных.
+        viewModel.state.observe(viewLifecycleOwner) { state -> //Ожидает изменения данных от viewModel (это может быть любой объект, который предоставляет данные для отображения) и выполняет блок кода внутри фигурных скобок, используя state (объект состояния) в качестве аргумента.
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.loading
 
-        binding.retryButton.setOnClickListener {//Кнопка переподключения (попробовать снова)
-            viewModel.loadPosts()
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        }
+        viewModel.data.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.posts)
+            binding.emptyText.isVisible = state.empty
         }
 
         binding.fab.setOnClickListener {//Плавающая кнопка для добавления нового сообщения
@@ -86,8 +86,8 @@ class FeedFragment : Fragment() {
         }
 
 
-        viewModel.data.observe(viewLifecycleOwner) { FeedModel -> //С помощью метода observe() устанавливается наблюдатель за изменением данных модели, который вызывает функцию, когда изменения обнаруживаются
-            if (FeedModel.error) { //Условие if должно проверять значение поля error на true
+        viewModel.data.observe(viewLifecycleOwner) { feedModel -> //С помощью метода observe() устанавливается наблюдатель за изменением данных модели, который вызывает функцию, когда изменения обнаруживаются
+            if (feedModel.error) { //Условие if должно проверять значение поля error на true
                 //Если значение равно true, то выполняется отображение всплывающего сообщения Snack bar, которое информирует пользователя о том, что произошла ошибка при загрузке данных.
                 Snackbar.make(requireView(), R.string.error_loading, Snackbar.LENGTH_LONG).show()
             }

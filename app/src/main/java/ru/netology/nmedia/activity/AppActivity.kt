@@ -35,7 +35,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                     }
                 )
         }
-
         checkGoogleApiAvailability()
     }
 

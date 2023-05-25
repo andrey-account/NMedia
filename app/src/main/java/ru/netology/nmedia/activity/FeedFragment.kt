@@ -64,6 +64,13 @@ class FeedFragment : Fragment() {
                     Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
             }
+            override fun onAttachment(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_attachmentFragment,
+                    Bundle().apply {
+                        textArg = post.attachment?.url
+                    }
+                )
+            }
         })
         binding.list.adapter = adapter //Устанавливает адаптер для RecyclerView, который находится в binding (в данном случае, это объект ViewBinding).
 
@@ -102,7 +109,7 @@ class FeedFragment : Fragment() {
                 binding.getNewer.isVisible = true
                 binding.getNewer.text = getString(R.string.newer_posts, it.toString())
                 binding.getNewer.setOnClickListener {
-                    viewModel.showPosts()
+                    viewModel.showNewPosts()
                     binding.getNewer.isVisible = false
                 }
             }

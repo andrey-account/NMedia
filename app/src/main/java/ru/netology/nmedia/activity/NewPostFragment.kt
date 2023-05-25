@@ -12,6 +12,15 @@ import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
+import android.app.Activity
+import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toFile
+import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
+import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.snackbar.Snackbar
+import ru.netology.nmedia.R
 
 class NewPostFragment : Fragment() {
 
@@ -35,11 +44,68 @@ class NewPostFragment : Fragment() {
         arguments?.textArg
             ?.let(binding.edit::setText)
 
-        binding.ok.setOnClickListener {
-            viewModel.changeContent(binding.edit.text.toString()) //Преобразование в строку всего, что в текстовом поле "edit"
-            viewModel.save() //Сохранение текста
-            AndroidUtils.hideKeyboard(requireView()) //Убирает клавиатуру
+        binding.edit.requestFocus()
+
+        val contract =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                when (it.resultCode) {
+                    ImagePicker.RESULT_ERROR -> Snackbar.make(
+                        binding.root,
+                        ImagePicker.getError(it.data),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+
+                    Activity.RESULT_OK -> {
+                        val fileUri = it.data?.data
+                        viewModel.changePhoto(fileUri, fileUri?.toFile())
+                    }
+                }
+            }
+
+        viewModel.photo.observe(viewLifecycleOwner) {
+            binding.photo.setImageURI(it.uri)
+            binding.photoContainer.isVisible = it.uri != null
         }
+
+        binding.pickPhoto.setOnClickListener {
+            ImagePicker.with(this)
+                .galleryOnly()
+                .crop()
+                .compress(2048)
+                .createIntent(contract::launch)
+        }
+
+        binding.takePhoto.setOnClickListener {
+            ImagePicker.with(this)
+                .cameraOnly()
+                .crop()
+                .compress(2048)
+                .createIntent(contract::launch)
+        }
+
+        binding.removePhoto.setOnClickListener {
+            viewModel.deletePhoto()
+        }
+
+        activity?.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_new_post, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.save -> {
+                        viewModel.changeContent(binding.edit.text.toString())
+                        viewModel.save()
+                        AndroidUtils.hideKeyboard(requireView())
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner)
+
         viewModel.postCreated.observe(viewLifecycleOwner) {
             viewModel.loadPosts()
             findNavController().navigateUp()

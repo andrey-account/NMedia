@@ -18,14 +18,16 @@ data class PostEntity(
     val likedByMe: Boolean,
     val likes: Int = 0,
     @Embedded
-    val attachment: AttachmentEntity?
+    val attachment: AttachmentEntity?,
+    val show: Boolean = true,
 ) {
     fun toDto() =
         Post(id, author, authorAvatar, content, published, likedByMe, likes, attachment?.toDto())
 
     companion object {
         fun fromDto(dto: Post) =
-            PostEntity(dto.id,
+            PostEntity(
+                dto.id,
                 dto.author,
                 dto.authorAvatar,
                 dto.content,
@@ -51,4 +53,6 @@ data class AttachmentEntity(
         }
     }
 }
-
+fun List<PostEntity>.toDto() = map { it.toDto() }
+fun List<Post>.toEntity(show: Boolean = true) = map { PostEntity.fromDto(it) }
+    .map { it.copy(show = show) }

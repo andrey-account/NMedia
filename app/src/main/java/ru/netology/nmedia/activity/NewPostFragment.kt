@@ -100,7 +100,10 @@ class NewPostFragment : Fragment() {
                         AndroidUtils.hideKeyboard(requireView())
                         true
                     }
-
+                    R.id.logout -> {
+                        SignOutFragment().show(childFragmentManager, "logoutDialog")
+                        true
+                    }
                     else -> false
                 }
             }

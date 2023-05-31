@@ -30,4 +30,23 @@
     <string name="remove">Удалить</string>
     <string name="description_photo">Фото</string>
     <string name="menu_save">Сохранить</string>
+
+    <string name="username">имя пользователя</string>
+    <string name="password">пароль</string>
+    <string name="authorize">войти</string>
+    <string name="error_blank_username">Введите имя пользователя</string>
+    <string name="error_blank_password">Введите пароль</string>
+    <string name="error_blank_auth">Введите имя пользователя и пароль</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="login">логин</string>
+    <string name="repeat_password">пароль (повторно)</string>
+    <string name="sign_in_to_continue">Войдите, чтобы продолжить</string>
+    <string name="incorrect_credentials">Неверные логин и/или пароль. Повторите попытку</string>
+    <string name="logout">Выйти</string>
+    <string name="sign_in">Войти</string>
+    <string name="are_you_sure">Вы уверены?</string>
+    <string name="cancel">Отмена</string>
+    <string name="error_blank_fields">Заполните все поля</string>
+    <string name="error_passwords">Введите один и тот же пароль</string>
+    <string name="upload_avatar">Загрузить аватар</string>
 </resources>

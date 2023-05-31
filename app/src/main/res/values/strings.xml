@@ -24,4 +24,9 @@
     <string name="channel_remote_name">Server notifications</string>
     <string name="channel_remote_description">Notifications from remote server</string>
     <string name="newer_posts">New posts: %1$s</string>
+    <string name="description_take_photo">Take a photo</string>
+    <string name="description_select_photo">Select a photo</string>
+    <string name="remove">Remove</string>
+    <string name="description_photo">Photo</string>
+    <string name="menu_save">Save</string>
 </resources>

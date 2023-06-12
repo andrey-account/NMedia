@@ -20,17 +20,15 @@ class AttachmentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentAttachmentBinding.inflate(
+        val binding = FragmentAttachmentBinding.inflate( //Создание экземпляра Binding класса для данного фрагмента
             inflater,
             container,
             false
         )
         val url = arguments?.textArg
-        val attachmentUrl = "${BuildConfig.BASE_URL}/images/${url}"
         val attachmentUrlNew = "${BuildConfig.BASE_URL}/media/${url}"
         Glide.with(binding.attachmentFullscreen)
-            .load(attachmentUrl)
-            .load(attachmentUrlNew)
+            .load(attachmentUrlNew) //Загружаем изображение с помощью библиотеки Glide и отображаем его в ImageView с идентификатором attachmentFullscreen
             .timeout(10_000)
             .into(binding.attachmentFullscreen)
 

@@ -12,6 +12,8 @@ data class Post(
     val likes: Int = 0, //Счётчик лайков
     val attachment: Attachment?, //Вложение, аватарка
     val show: Boolean = true,
+    val ownedByMe: Boolean = false,
+    val authorId: Long,
 )
 
 data class PhotoModel(val uri: Uri? = null, val file: File? = null)

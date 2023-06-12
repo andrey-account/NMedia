@@ -119,7 +119,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/footer"
                 app:icon="@drawable/ic_like_24dp"
-                tools:text="@sample/posts.json/data/likes"
                 style="@style/Widget.AppTheme.LikeCheckBox" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

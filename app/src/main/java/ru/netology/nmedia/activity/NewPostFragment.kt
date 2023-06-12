@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.util.AndroidUtils
+import androidx.fragment.app.viewModels
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 import android.app.Activity
+import dagger.hilt.android.AndroidEntryPoint
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
@@ -22,13 +23,14 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 
+@AndroidEntryPoint
 class NewPostFragment : Fragment() {
 
     companion object {
         var Bundle.textArg: String? by StringArg
     }
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModel: PostViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

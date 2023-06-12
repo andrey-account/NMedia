@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.databinding.FragmentAttachmentBinding
 import ru.netology.nmedia.util.StringArg
 
+@AndroidEntryPoint //Этот класс будет использоваться в качестве точки входа для Hilt
 class AttachmentFragment : Fragment() {
-    companion object {
-        var Bundle.textArg: String? by StringArg
+    companion object { //Объявляем companion object, чтобы добавить расширение для Bundle
+        var Bundle.textArg: String? by StringArg //чтобы получить значение из Bundle
     }
 
     override fun onCreateView(

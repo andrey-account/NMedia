@@ -8,10 +8,13 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
@@ -97,9 +100,21 @@ class FeedFragment : Fragment() {
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner) { state ->
-            adapter.submitList(state.posts)
-            binding.emptyText.isVisible = state.empty
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.collectLatest {
+                adapter.submitData(it)
+            }
+        }
+
+        authViewModel.state.observe(viewLifecycleOwner) {
+            adapter.refresh()
+        }
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest {
+                binding.swiperefresh.isRefreshing = it.refresh is LoadState.Loading
+                        || it.append is LoadState.Loading
+                        || it.prepend is LoadState.Loading
+            }
         }
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
@@ -123,20 +138,8 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) {
-            println(it)
-            if (it >= 1) {
-                binding.getNewer.isVisible = true
-                binding.getNewer.text = getString(R.string.newer_posts, it.toString())
-                binding.getNewer.setOnClickListener {
-                    viewModel.showNewPosts()
-                    binding.getNewer.isVisible = false
-                }
-            }
-        }
-
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            adapter.refresh()
         }
 
         viewModel.error.observe(viewLifecycleOwner) {

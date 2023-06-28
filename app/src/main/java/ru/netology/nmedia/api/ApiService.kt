@@ -14,8 +14,18 @@ interface ApiService {
     @GET("posts")
     suspend fun getAll(): Response<List<Post>>
 
+    @GET("posts/latest") //Выполняет HTTP GET запрос к ресурсу "posts/latest"
+    suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
+
     @GET("posts/{id}/newer")
     suspend fun getNewer(@Path("id") id: Long): Response<List<Post>>
+
+    @GET("posts/{id}/before") //Получает список постов, опубликованных до определенного поста
+    //Количество постов запрашивается с помощью параметра "count".
+    suspend fun getBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
+
+    @GET("posts/{id}/after") //Получает список постов, опубликованных после определенного поста
+    suspend fun getAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
 
     @POST("posts")
     suspend fun save(@Body post: Post): Response<Post>

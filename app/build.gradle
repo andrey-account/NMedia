@@ -48,6 +48,7 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     def core_version = "1.10.1"
     def appcompat_version = "1.6.1"
     def constraintlayout_version = "2.1.4"
@@ -60,7 +61,7 @@ dependencies {
     def mdc_version = "1.9.0"
     def gson_version = '2.10.1'
     def nav_version = "2.6.0"
-    def room_version = "2.5.1"
+    def room_version = "2.5.2"
     def firebase_version = '31.2.2'
     def play_services_base_version = "18.2.0"
     def glide_version = '4.15.1'

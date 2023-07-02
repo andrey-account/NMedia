@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.netology.nmedia.auth.AppAuth
+import ru.netology.nmedia.dto.FeedItem
 import ru.netology.nmedia.dto.PhotoModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,13 +50,15 @@ class PostViewModel @Inject constructor(
 
     private val _dataState = MutableLiveData(FeedModelState())
 
-    val data: Flow<PagingData<Post>> = appAuth
-        .state
-        .map { it?.id }
-        .flatMapLatest { id ->
+    val data: Flow<PagingData<FeedItem>> = appAuth.state
+        .flatMapLatest { authState ->
             cached.map { pagingData ->
                 pagingData.map { post ->
-                    post.copy(ownedByMe = post.authorId == id)
+                    if (post is Post) {
+                        post.copy(ownedByMe = post.authorId == authState?.id)
+                    } else {
+                        post
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint //Для использования аннотации @AndroidEntryPoint
 import ru.netology.nmedia.R
@@ -24,29 +25,24 @@ import javax.inject.Inject //Для использования функцион�
 
 @AndroidEntryPoint //Для пометки класса в качестве точки входа для Hilt.
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
-
     @Inject // Помечаем поле firebaseMessaging аннотацией @Inject, чтобы Dagger мог внедрить зависимость FirebaseMessaging в эту переменную
     lateinit var firebaseMessaging: FirebaseMessaging
-
     @Inject
     lateinit var googleApiAvailability: GoogleApiAvailability
-
-
     private lateinit var appBarConfiguration: AppBarConfiguration //Для настройки панели приложения
 
-    override fun onCreate(savedInstanceState: Bundle?) { //Переопределяем метод onCreate для создания активности
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState) //Переопределяем метод onCreate для создания активности
+        FirebaseApp.initializeApp(this)
         // Получаем интент, который запустил активность
         intent?.let {
             if (it.action != Intent.ACTION_SEND) { //Проверяем, является ли действие интента "отправить"
                 return@let
             }
-
             val text = it.getStringExtra(Intent.EXTRA_TEXT) //Получаем текст сообщения из интента
             if (text?.isNotBlank() != true) { //Проверяем, что текст сообщения не является пустым или состоит только из пробелов
                 return@let
             }
-
             intent.removeExtra(Intent.EXTRA_TEXT) //Удаляем текст сообщения из интента
             findNavController(R.id.nav_host_fragment) //Находим NavController и переходим на фрагмент для создания нового поста, передавая в него текст сообщения
                 .navigate(

@@ -41,7 +41,6 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
-
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
@@ -60,7 +59,6 @@ class FeedFragment : Fragment() {
                             false -> viewModel.likeById(post.id)
                         }
                     }
-
                     false -> unauthorizedAccessAttempt()
                 }
             }
@@ -157,12 +155,10 @@ class FeedFragment : Fragment() {
                         appAuth.removeAuth()
                         true
                     }
-
                     R.id.signIn -> {
                         SignInFragment().show(childFragmentManager, "authDialog")
                         true
                     }
-
                     R.id.signUp -> {
                         SignUpFragment().show(childFragmentManager, "signUpDialog")
                         true

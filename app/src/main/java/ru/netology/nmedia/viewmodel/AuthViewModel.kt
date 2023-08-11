@@ -17,7 +17,7 @@ class AuthViewModel @Inject constructor(
 ): ViewModel() {
     val state = appAuth.state
         .asLiveData()
-    val authorized: Boolean
+    var authorized: Boolean = false
         get() = state.value != null
 
     private val _error = SingleLiveEvent<Throwable>()
@@ -42,6 +42,7 @@ class AuthViewModel @Inject constructor(
             appAuth.register(login, password, name)
         } catch (e: Exception) {
             _error.value = e
+            println("Error in registering the user: ${e.message}")
         }
     }
     fun registerWithPhoto(login: String, password: String, name: String, file: File) =

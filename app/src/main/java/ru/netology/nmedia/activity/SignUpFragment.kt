@@ -70,7 +70,6 @@ class SignUpFragment : DialogFragment() {
             binding.avatar.isVisible = it.uri != null
         }
 
-
         authViewModel.error.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiException -> Toast.makeText(
@@ -78,11 +77,9 @@ class SignUpFragment : DialogFragment() {
                     R.string.error_loading,
                     Toast.LENGTH_LONG
                 ).show()
-
                 else -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
             }
         }
-
 
         authViewModel.state.observe(viewLifecycleOwner) {
             if (it != null) {

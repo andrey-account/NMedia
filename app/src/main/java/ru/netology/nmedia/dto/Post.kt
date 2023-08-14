@@ -10,7 +10,7 @@ sealed interface FeedItem {
 data class Post(
     override val id: Long = 0,
     val author: String,
-    val authorAvatar: String = "",
+    val authorAvatar: String? = null,
     val content: String, //Текст сообщения
     val published: String, //Дата и время публикации
     val likedByMe: Boolean, //Лайк включен или отключен
@@ -32,10 +32,11 @@ data class Media(val id: String)
 
 data class Attachment(
     val url: String,
-    val description: String,
-    val type: AttachmentType,
+    val type: AttachmentType
 )
 
 enum class AttachmentType {
-    IMAGE
+    IMAGE,
+    AUDIO,
+    VIDEO
 }

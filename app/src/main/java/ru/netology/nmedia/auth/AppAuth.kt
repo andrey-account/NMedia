@@ -27,17 +27,16 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val TOKEN_KEY = "TOKEN_KEY"
+private const val ID_KEY = "ID_KEY"
+
 @Singleton
 class AppAuth @Inject constructor(
     @ApplicationContext
     private val context: Context
 ) {
-    private val TOKEN_KEY = "TOKEN_KEY"
-    private val ID_KEY = "ID_KEY"
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val _state: MutableStateFlow<AuthState?>
-
-
 
     init {
         val token = prefs.getString(TOKEN_KEY, null)

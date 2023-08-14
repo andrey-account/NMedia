@@ -90,7 +90,7 @@
                 app:layout_constraintStart_toStartOf="@id/content"
                 app:layout_constraintTop_toBottomOf="@id/content"
                 tools:srcCompat="@string/description_post_author_avatar"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/description_post_author_avatar" />
 
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/footer"

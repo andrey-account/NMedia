@@ -23,11 +23,13 @@
 
             <EditText
                     android:id="@+id/edit"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine"
-                    android:padding="@dimen/common_spacing" />
+                    android:padding="@dimen/common_spacing"
+                    android:autofillHints="your_autofill_hint"
+                    android:hint="@string/your_post" />
 
             <FrameLayout
                     android:id="@+id/photoContainer"

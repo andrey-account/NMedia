@@ -12,7 +12,7 @@ data class PostEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val author: String,
-    val authorAvatar: String,
+    val authorAvatar: String?,
     val content: String,
     val published: String,
     val likedByMe: Boolean,
@@ -53,17 +53,14 @@ data class PostEntity(
 @Entity
 data class AttachmentEntity(
     val url: String,
-    val description: String,
     val type: AttachmentType
 ) {
-    fun toDto() = Attachment(url, description, type)
-
+    fun toDto() = Attachment(url, type)
     companion object {
         fun fromDto(dto: Attachment?): AttachmentEntity? {
-            return if (dto != null) AttachmentEntity(dto.url, dto.description, dto.type) else null
+            return if (dto != null) AttachmentEntity(dto.url, dto.type) else null
         }
     }
 }
-fun List<PostEntity>.toDto() = map { it.toDto() }
 fun List<Post>.toEntity(show: Boolean = true) = map { PostEntity.fromDto(it) }
     .map { it.copy(show = show) }

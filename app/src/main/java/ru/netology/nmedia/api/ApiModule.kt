@@ -10,16 +10,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import ru.netology.nmedia.BuildConfig
+import ru.netology.nmedia.BuildConfig.BASE_URL
 import ru.netology.nmedia.auth.AppAuth
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
-
-    companion object {
-        private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
-    }
 
     @Provides
     @Singleton
@@ -43,7 +40,6 @@ class ApiModule {
                     .addHeader("Authorization", token)
                     .build()
             } ?: chain.request()
-
             chain.proceed(request)
         }
         .build()

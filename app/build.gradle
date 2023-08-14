@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "ru.netology.nmedia"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -40,7 +40,7 @@ android {
         }
         debug {
             manifestPlaceholders.usesCleartextTraffic = true
-            buildConfigField "String", "BASE_URL", '"http://10.0.2.2:9999"'
+            buildConfigField "String", "BASE_URL", '"https://netomedia.ru"' //'"http://10.0.2.2:9999"'
         }
     }
     namespace 'ru.netology.nmedia'
@@ -60,7 +60,7 @@ dependencies {
     def lifecycle_version = "2.6.1"
     def mdc_version = "1.9.0"
     def gson_version = '2.10.1'
-    def nav_version = "2.6.0"
+    def nav_version = "2.6.0" //Не менять!
     def room_version = "2.5.2"
     def firebase_version = '31.2.2'
     def play_services_base_version = "18.2.0"
@@ -108,9 +108,11 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
+    //Для аутентификации с помощью Firebase
     implementation 'com.google.firebase:firebase-auth:22.1.1'
     implementation 'com.google.firebase:firebase-firestore:24.7.0'
+    //Для перехода по внешним ссылкам. Не обновлять!
+    implementation 'androidx.browser:browser:1.5.0' //Не менять!
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"

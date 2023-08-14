@@ -178,7 +178,7 @@ class PostRepositoryImpl @Inject constructor( //Класс репозитори�
         try {
             val upload = upload(file)
             val postWithAttachment =
-                post.copy(attachment = Attachment(upload.id, "attachment", AttachmentType.IMAGE))
+                post.copy(attachment = Attachment(upload.id, AttachmentType.IMAGE))
             save(postWithAttachment)
         } catch (e: IOException) {
             throw NetworkException
@@ -186,5 +186,4 @@ class PostRepositoryImpl @Inject constructor( //Класс репозитори�
             throw UnknownException
         }
     }
-
 }

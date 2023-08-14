@@ -51,4 +51,6 @@
     <string name="upload_avatar">Загрузить аватар</string>
     <string name="messageFromServer">Сообщение от сервера %1$s</string>
     <string name="retry">Повторите попытку</string>
+    <string name="attachment">Вложение</string>
+    <string name="your_post">Ваш пост:</string>
 </resources>

@@ -17,7 +17,7 @@ class AuthViewModel @Inject constructor(
 ): ViewModel() {
     val state = appAuth.state
         .asLiveData()
-    var authorized: Boolean = false
+    var authorized: Boolean = false //var - чтобы менять значение в fun signIn (SignInFragment)
         get() = state.value != null
 
     private val _error = SingleLiveEvent<Throwable>()

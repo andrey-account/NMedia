@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.databinding.FragmentSignInBinding
@@ -49,8 +50,12 @@ class SignInFragment : DialogFragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) { // Аутентификация прошла успешно
-                    val user = auth.currentUser
-                    authViewModel.updateUser(user?.email ?: "", user?.uid ?: "") // Обновляем информацию о пользователе в ViewModel
+                    authViewModel.updateUser(email, password) // Обновляем информацию о пользователе в ViewModel
+                    authViewModel.state.observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            findNavController().navigateUp()
+                        }
+                    }
                     authViewModel.authorized = true // Пользователь авторизован
                 } else { // Неудачная аутентификация
                     Toast.makeText(requireContext(), "Ошибка входа.", Toast.LENGTH_SHORT).show()

@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -55,7 +54,7 @@ class PostViewModel @Inject constructor(
             cached.map { pagingData ->
                 pagingData.map { post ->
                     if (post is Post) {
-                        post.copy(ownedByMe = post.authorId == authState?.id)
+                        post.copy(ownedByMe = post.authorId == authState.id)
                     } else {
                         post
                     }
@@ -85,25 +84,6 @@ class PostViewModel @Inject constructor(
     fun loadPosts() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
-
-    fun showNewPosts() = viewModelScope.launch(Dispatchers.IO) {
-        try {
-            _dataState.postValue(FeedModelState(loading = true))
-            repository.showNewPosts()
-            _dataState.postValue(FeedModelState())
-        } catch (e: Exception) {
-            _dataState.postValue(FeedModelState(error = true))
-        }
-    }
-
-    fun refreshPosts() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(refreshing = true)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)

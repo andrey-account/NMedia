@@ -9,12 +9,12 @@ import java.io.File
 interface PostRepository {
 
     val data: Flow<PagingData<FeedItem>>
-    suspend fun getAll()
-    fun getNewerCount(id: Long): Flow<Int>
-    suspend fun showNewPosts()
+    fun userWall(id: Long): Flow<PagingData<FeedItem>>
+    suspend fun likeById(post: Long)
+    suspend fun unlikeById(post: Long)
     suspend fun save(post: Post)
+    suspend fun saveWithAttachment(post: Post, media: File)
     suspend fun removeById(id: Long)
-    suspend fun likeById(id: Long)
-    suspend fun unlikeById(id: Long)
-    suspend fun saveWithAttachment(post: Post, file: File)
+    suspend fun getById(id: Long): Post?
+    suspend fun wallRemoveById(id: Long)
 }

@@ -3,20 +3,22 @@ package ru.netology.nmedia.repository
 import androidx.paging.*
 import androidx.room.withTransaction
 import ru.netology.nmedia.api.ApiService
-import ru.netology.nmedia.dao.PostDao
-import ru.netology.nmedia.dao.PostRemoteKeyDao
+import ru.netology.nmedia.dao.post.PostDao
+import ru.netology.nmedia.dao.post.PostRemoteKeyDao
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.PostRemoteKeyEntity
+import ru.netology.nmedia.entity.toEntity
+import ru.netology.nmedia.enumeration.RemoteKeyType
 import ru.netology.nmedia.error.ApiException
-import java.io.IOException
+import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class PostRemoteMediator(
-    private val apiService: ApiService,
+class PostRemoteMediator @Inject constructor(
+    private val service: ApiService,
     private val postDao: PostDao,
-    private val postRemoteKeyDao: PostRemoteKeyDao,
     private val appDb: AppDb,
+    private val postRemoteKeyDao: PostRemoteKeyDao,
 ) : RemoteMediator<Int, PostEntity>() {
 
     override suspend fun load(
@@ -24,74 +26,67 @@ class PostRemoteMediator(
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
         try {
-            val result = when (loadType) {
+            val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    apiService.getLatest(state.config.pageSize)
+                    postRemoteKeyDao.max()?.let { id ->
+                        service.getPostsAfter(id, state.config.pageSize)
+                    } ?: service.getLatestPosts(state.config.initialLoadSize)
                 }
-                LoadType.PREPEND -> {
-                    val id = postRemoteKeyDao.max() ?: return MediatorResult.Success(false)
-                    apiService.getAfter(id, state.config.pageSize)
-                }
+                LoadType.PREPEND -> return MediatorResult.Success(false)
 
                 LoadType.APPEND -> {
                     val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(false)
-                    apiService.getBefore(id, state.config.pageSize)
+                    service.getPostsBefore(id, state.config.pageSize)
                 }
             }
 
-            if (!result.isSuccessful) {
-                throw ApiException(result.code(), result.message())
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
             }
-            val body = result.body() ?: throw ApiException(
-                result.code(),
-                result.message()
-            )
+
+            val body = response.body() ?: throw ApiException(response.code(), response.message())
 
             appDb.withTransaction {
                 when (loadType) {
                     LoadType.REFRESH -> {
-                        postRemoteKeyDao.insert(
-                            PostRemoteKeyEntity(
-                                PostRemoteKeyEntity.KeyType.BEFORE,
-                                body.last().id
-                            ),
-                        )
-                        postRemoteKeyDao.insert(
-                            PostRemoteKeyEntity(
-                                PostRemoteKeyEntity.KeyType.AFTER,
-                                body.first().id
-                            ),
-                        )
+                        if (postRemoteKeyDao.isEmpty()) {
+                            postRemoteKeyDao.clear()
+                            postRemoteKeyDao.insert(
+                                listOf(
+                                    PostRemoteKeyEntity(
+                                        type = RemoteKeyType.AFTER,
+                                        key = body.first().id,
+                                    ),
+                                    PostRemoteKeyEntity(
+                                        type = RemoteKeyType.BEFORE,
+                                        key = body.last().id
+                                    ),
+                                )
+                            )
+                            postDao.clear()
+                        } else {
+                            postRemoteKeyDao.insert(
+                                PostRemoteKeyEntity(
+                                    type = RemoteKeyType.AFTER,
+                                    key = body.first().id
+                                )
+                            )
+                        }
                     }
-
+                    LoadType.PREPEND -> {}
                     LoadType.APPEND -> {
-                        if (body.isNotEmpty()) {
-                            postRemoteKeyDao.insert(
-                                PostRemoteKeyEntity(
-                                    PostRemoteKeyEntity.KeyType.BEFORE,
-                                    body.last().id
-                                ),
+                        postRemoteKeyDao.insert(
+                            PostRemoteKeyEntity(
+                                type = RemoteKeyType.BEFORE,
+                                key = body.last().id,
                             )
-                        }
-                    }
-
-                    LoadType.PREPEND -> {
-                        if (body.isNotEmpty()) {
-                            postRemoteKeyDao.insert(
-                                PostRemoteKeyEntity(
-                                    PostRemoteKeyEntity.KeyType.AFTER,
-                                    body.first().id
-                                ),
-                            )
-                        }
+                        )
                     }
                 }
-
-                postDao.insert(body.map(PostEntity::fromDto))
+                postDao.insert(body.toEntity())
             }
-
-            return MediatorResult.Success(body.isEmpty())
-        } catch (e: IOException) {
+            return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
+        } catch (e: Exception) {
             return MediatorResult.Error(e)
         }
     }

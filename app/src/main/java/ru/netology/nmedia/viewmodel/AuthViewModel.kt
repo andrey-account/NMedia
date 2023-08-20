@@ -32,14 +32,14 @@ class AuthViewModel @Inject constructor(
     fun updateUser(login: String, password: String) =
         viewModelScope.launch {
             try {
-                appAuth.update(login, password)
+                //appAuth.update(login, password)
             } catch (e: Exception) {
                 _error.value = e
             }
         }
     fun registerUser(login: String, password: String, name: String) = viewModelScope.launch {
         try {
-            appAuth.register(login, password, name)
+            //appAuth.register(login, password, name)
         } catch (e: Exception) {
             _error.value = e
             println("Error in registering the user: ${e.message}")

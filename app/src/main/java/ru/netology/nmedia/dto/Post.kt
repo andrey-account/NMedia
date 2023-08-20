@@ -1,6 +1,7 @@
 package ru.netology.nmedia.dto
 
 import android.net.Uri
+import ru.netology.nmedia.enumeration.AttachmentType
 import java.io.File
 
 sealed interface FeedItem {
@@ -28,15 +29,9 @@ data class Ad(
 
 data class PhotoModel(val uri: Uri? = null, val file: File? = null)
 
-data class Media(val id: String)
+data class Media(val url: String)
 
 data class Attachment(
     val url: String,
     val type: AttachmentType
 )
-
-enum class AttachmentType {
-    IMAGE,
-    AUDIO,
-    VIDEO
-}

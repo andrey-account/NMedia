@@ -1,12 +1,12 @@
-package ru.netology.nmedia.entity
+package ru.netology.nmedia.entity.wall
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.nmedia.enumeration.RemoteKeyType
 
 @Entity
-data class PostRemoteKeyEntity(
+data class WallRemoteKeyEntity(
     @PrimaryKey
     val type: RemoteKeyType,
-    val key: Long,
+    val id: Long,
 )

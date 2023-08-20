@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.netology.nmedia.dao.wall.WallDao
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -11,5 +12,5 @@ import javax.inject.Singleton
 interface RepositoryModule {
     @Singleton
     @Binds
-    fun bindsPostRepository(impl: PostRepositoryImpl): PostRepository
+    fun bindsPostRepository(postRepository: PostRepositoryImpl): PostRepository
 }

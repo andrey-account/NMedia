@@ -1,4 +1,4 @@
-package ru.netology.nmedia.dao
+package ru.netology.nmedia.dao.post
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -7,8 +7,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverter
 import kotlinx.coroutines.flow.Flow
-import ru.netology.nmedia.dto.AttachmentType
+import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
+import ru.netology.nmedia.entity.wall.WallEntity
+import ru.netology.nmedia.enumeration.AttachmentType
 
 @Dao
 interface PostDao {
@@ -25,7 +27,7 @@ interface PostDao {
     suspend fun isEmpty(): Boolean
 
     @Query("SELECT COUNT(*) FROM PostEntity")
-    suspend fun count(): Int
+    suspend fun count(): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(post: PostEntity)

@@ -10,65 +10,54 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import ru.netology.nmedia.BuildConfig
-import ru.netology.nmedia.BuildConfig.BASE_URL
 import ru.netology.nmedia.auth.AppAuth
 import javax.inject.Singleton
 
-// Устанавливаем модуль в SingletonComponent
 @InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
-    // Предоставляем логгирование для сетевых запросов
+    companion object {
+        private const val BASE_URL = "${BuildConfig.BASE_URL}/api/"
+    }
+
     @Provides
     @Singleton
-    fun provideLogging(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        // Если приложение находится в режиме отладки, устанавливаем уровень логгирования на полное тело запроса и ответа
+    fun provideLogging() : HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         if (BuildConfig.DEBUG) {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-
-    // Предоставляем экземпляр OkHttpClient
     @Provides
     @Singleton
     fun provideOkHttp(
-        logging: HttpLoggingInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
         appAuth: AppAuth
     ): OkHttpClient = OkHttpClient.Builder()
-        // Добавляем логгирование запросов и ответов с использованием предоставленного HttpLoggingInterceptor
-        .addInterceptor(logging)
-        // Добавляем перехватчик, который добавляет заголовок "Authorization" с токеном авторизации к каждому запросу, если токен доступен
+        .addInterceptor(loggingInterceptor)
         .addInterceptor { chain ->
-            val request = appAuth.state.value.token?.let { token ->
-                chain.request()
-                    .newBuilder()
-                    .addHeader("Authorization", token)
+            val request = appAuth.authState.value.token?.let {
+                chain.request().newBuilder()
+                    .addHeader("Authorization", it)
                     .build()
             } ?: chain.request()
             chain.proceed(request)
         }
-        // Создаем экземпляр OkHttpClient с добавленными перехватчиками
         .build()
 
-    // Предоставляем экземпляр Retrofit
     @Provides
     @Singleton
     fun provideRetrofit(
-        client: OkHttpClient,
-    ) : Retrofit = Retrofit.Builder()
-        // Добавляем конвертер GsonConverterFactory для преобразования JSON в объекты
-        .addConverterFactory(GsonConverterFactory.create())
-        // Устанавливаем OkHttpClient в качестве клиента для сетевых запросов
-        .client(client)
-        // Устанавливаем базовый URL для всех запросов
+        okHttpClient: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        // Создаем экземпляр Retrofit с добавленными настройками
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    // Предоставляем экземпляр ApiService
+
     @Provides
     @Singleton
     fun provideApiService(
         retrofit: Retrofit
-    ) : ApiService = retrofit.create()
+    ): ApiService = retrofit.create()
 }

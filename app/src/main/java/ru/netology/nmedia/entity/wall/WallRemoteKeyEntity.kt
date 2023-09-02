@@ -8,5 +8,5 @@ import ru.netology.nmedia.enumeration.RemoteKeyType
 data class WallRemoteKeyEntity(
     @PrimaryKey
     val type: RemoteKeyType,
-    val id: Long,
+    val id: Int,
 )

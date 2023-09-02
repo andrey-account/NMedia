@@ -1,60 +1,55 @@
 package ru.netology.nmedia.viewmodel
 
-import android.net.Uri
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.auth.AppAuth
-import ru.netology.nmedia.dto.PhotoModel
-import ru.netology.nmedia.error.AppError
-import ru.netology.nmedia.util.SingleLiveEvent
-import java.io.File
+import ru.netology.nmedia.error.ApiError
+import ru.netology.nmedia.model.AuthModel
+import ru.netology.nmedia.model.AuthModelState
+import ru.netology.nmedia.repository.auth.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
+    private val repository: AuthRepository,
     private val appAuth: AppAuth
-): ViewModel() {
-    val state = appAuth.state
-        .asLiveData()
-    var authorized: Boolean = false //var - чтобы менять значение в fun signIn (SignInFragment)
-        get() = state.value != null
+) : ViewModel() {
 
-    private val _error = SingleLiveEvent<Throwable>()
-    val error: LiveData<Throwable>
-        get() = _error
+    val data: LiveData<AuthModel> = appAuth
+        .authState
+        .asLiveData(Dispatchers.Default)
 
-    private val noPhoto = PhotoModel(null, null)
-    private val _photo = MutableLiveData(noPhoto)
-    val photo: LiveData<PhotoModel>
-        get() = _photo
+    val authorized: Boolean
+        get() = data.value != AuthModel()
 
-    fun updateUser(login: String, password: String) =
-        viewModelScope.launch {
+    private val _state = MutableLiveData<AuthModelState>()
+    val state: LiveData<AuthModelState>
+        get() = _state
+
+    fun login(login: String, password: String) = viewModelScope.launch {
+        if (login.isNotBlank() && password.isNotBlank()) {
             try {
-                //appAuth.update(login, password)
+                _state.value = AuthModelState(loading = true)
+                val result = repository.login(login, password)
+                appAuth.setAuth(result.id, result.token)
+                _state.value = AuthModelState(loggedIn = true)
             } catch (e: Exception) {
-                _error.value = e
+                when (e) {
+                    is ApiError -> if (e.status == 404) _state.value =
+                        AuthModelState(invalidLoginOrPass = true)
+                    else -> _state.value = AuthModelState(error = true)
+                }
             }
+        } else {
+            _state.value = AuthModelState(isBlank = true)
         }
-    fun registerUser(login: String, password: String, name: String) = viewModelScope.launch {
-        try {
-            //appAuth.register(login, password, name)
-        } catch (e: Exception) {
-            _error.value = e
-            println("Error in registering the user: ${e.message}")
-        }
+        _state.value = AuthModelState()
     }
-    fun registerWithPhoto(login: String, password: String, name: String, file: File) =
-        viewModelScope.launch {
-            try {
-                appAuth.registerWithPhoto(login, password, name, file)
-            } catch (e: Exception) {
-                println(e)
-                throw AppError.from(e)
-            }
-        }
-    fun changePhoto(uri: Uri?, file: File?) {
-        _photo.value = PhotoModel(uri, file)
+
+    fun logout() {
+        appAuth.removeAuth()
+        _state.value = AuthModelState(notLoggedIn = true)
     }
 }

@@ -37,5 +37,5 @@ interface WallDao {
 
     // Метод для удаления записи с определенным идентификатором из таблицы "WallEntity"
     @Query("DELETE FROM WallEntity WHERE id = :id")
-    suspend fun removeById(id: Long)
+    suspend fun removeById(id: kotlin.Int)
 }

@@ -9,11 +9,10 @@ import ru.netology.nmedia.api.ApiService
 import ru.netology.nmedia.dao.wall.WallDao
 import ru.netology.nmedia.dao.wall.WallRemoteKeyDao
 import ru.netology.nmedia.db.AppDb
-import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.entity.wall.WallEntity
 import ru.netology.nmedia.entity.wall.WallRemoteKeyEntity
 import ru.netology.nmedia.enumeration.RemoteKeyType
-import ru.netology.nmedia.error.ApiException
+import ru.netology.nmedia.error.ApiError
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -22,10 +21,10 @@ class WallRemoteMediator @Inject constructor(
     private val wallDao: WallDao,
     private val appDb: AppDb,
     private val wallRemoteKeyDao: WallRemoteKeyDao,
-    private val authorId: Long
+    private val authorId: Int
 ) : RemoteMediator<Long, WallEntity>() {
 
-    private var id = 0L
+    private var id = 0
 
     override suspend fun load(
         loadType: LoadType,
@@ -59,10 +58,10 @@ class WallRemoteMediator @Inject constructor(
             }
 
             if (!response.isSuccessful) {
-                throw ApiException(response.code(), response.message())
+                throw ApiError(response.code(), response.message())
             }
 
-            val body = response.body() ?: throw ApiException(response.code(), response.message())
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
 
             appDb.withTransaction {
                 when (loadType) {
